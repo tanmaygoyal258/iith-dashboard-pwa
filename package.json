@@ -6,6 +6,9 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.4.0",
+    "prettier": "^2.1.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3"
@@ -17,7 +20,13 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "airbnb",
+    "env": {
+      "browser": true
+    },
+    "rules": {
+      "react/jsx-filename-extension": 0
+    }
   },
   "browserslist": {
     "production": [
@@ -30,5 +39,19 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "eslint src --fix",
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "eslint-config-airbnb": "^18.2.0"
   }
 }
