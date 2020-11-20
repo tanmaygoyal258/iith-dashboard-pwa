@@ -9,6 +9,10 @@ import {
   CssBaseline,
 } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import RestaurantIcon from '@material-ui/icons/Restaurant';
+import LocalTaxiIcon from '@material-ui/icons/LocalTaxi';
+import DirectionsBusIcon from '@material-ui/icons/DirectionsBus';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import firebaseConfig from './firebaseConfig';
 
 firebase.initializeApp(firebaseConfig);
@@ -75,11 +79,31 @@ function App() {
     <ThemeProvider theme={muiTheme}>
       <CssBaseline />
       <Container>{currentComponent(currentTab)}</Container>
-      <BottomNavigation value={currentTab} onChange={handleTabChange}>
-        <BottomNavigationAction label="Mess Menu" value="mess" />
-        <BottomNavigationAction label="Timetable" value="timetable" />
-        <BottomNavigationAction label="Cab Sharing" value="cab-sharing" />
-        <BottomNavigationAction label="Bus Schedule" value="bus-schedule" />
+      <BottomNavigation
+        value={currentTab}
+        onChange={handleTabChange}
+        showLabels
+      >
+        <BottomNavigationAction
+          label="Mess Menu"
+          value="mess"
+          icon={<RestaurantIcon />}
+        />
+        <BottomNavigationAction
+          label="Timetable"
+          value="timetable"
+          icon={<CalendarTodayIcon />}
+        />
+        <BottomNavigationAction
+          label="Cab Sharing"
+          value="cab-sharing"
+          icon={<LocalTaxiIcon />}
+        />
+        <BottomNavigationAction
+          label="Bus Schedule"
+          value="bus-schedule"
+          icon={<DirectionsBusIcon />}
+        />
       </BottomNavigation>
       <button
         type="submit"
