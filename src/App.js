@@ -36,8 +36,8 @@ const login = () => {
 const muiTheme = createMuiTheme({
   palette: {
     primary: {
-      light: '#757ce8',
-      main: '#3f50b5',
+      light: '#000000',
+      main: '#9c5cb4',
       dark: '#002884',
       contrastText: '#666666',
     },
@@ -78,33 +78,37 @@ function App() {
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline />
-      <Container>{currentComponent(currentTab)}</Container>
-      <BottomNavigation
-        value={currentTab}
-        onChange={handleTabChange}
-        showLabels
-      >
-        <BottomNavigationAction
-          label="Mess Menu"
-          value="mess"
-          icon={<RestaurantIcon />}
-        />
-        <BottomNavigationAction
-          label="Timetable"
-          value="timetable"
-          icon={<CalendarTodayIcon />}
-        />
-        <BottomNavigationAction
-          label="Cab Sharing"
-          value="cab-sharing"
-          icon={<LocalTaxiIcon />}
-        />
-        <BottomNavigationAction
-          label="Bus Schedule"
-          value="bus-schedule"
-          icon={<DirectionsBusIcon />}
-        />
-      </BottomNavigation>
+      <Container className="main-container">
+        {currentComponent(currentTab)}
+      </Container>
+      <Container className="bottom-nav" disableGutters maxWidth={false}>
+        <BottomNavigation
+          value={currentTab}
+          onChange={handleTabChange}
+          showLabels
+        >
+          <BottomNavigationAction
+            label="Mess Menu"
+            value="mess"
+            icon={<RestaurantIcon />}
+          />
+          <BottomNavigationAction
+            label="Timetable"
+            value="timetable"
+            icon={<CalendarTodayIcon />}
+          />
+          <BottomNavigationAction
+            label="Cab Sharing"
+            value="cab-sharing"
+            icon={<LocalTaxiIcon />}
+          />
+          <BottomNavigationAction
+            label="Bus Schedule"
+            value="bus-schedule"
+            icon={<DirectionsBusIcon />}
+          />
+        </BottomNavigation>
+      </Container>
       <button
         type="submit"
         onClick={() => {
