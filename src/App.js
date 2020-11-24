@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './App.css';
 import firebase from 'firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {
@@ -15,6 +14,8 @@ import DirectionsBusIcon from '@material-ui/icons/DirectionsBus';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import firebaseConfig from './firebaseConfig';
 import Mess from './pages/Mess';
+
+import './App.css';
 
 firebase.initializeApp(firebaseConfig);
 const googleProvider = new firebase.auth.GoogleAuthProvider();
@@ -54,6 +55,8 @@ const muiTheme = createMuiTheme({
 function App() {
   const [user, loading, error] = useAuthState(firebase.auth()); // eslint-disable-line
   const [currentTab, setCurrentTab] = useState('mess');
+  // Replace by apicall
+  const messData = null;
 
   const handleTabChange = (_, newTab) => {
     setCurrentTab(newTab);
@@ -61,7 +64,7 @@ function App() {
 
   const currentComponent = (tabName) => {
     if (tabName === 'mess') {
-      return <Mess />;
+      return <Mess messData={messData} />;
     }
     // Need to show 404
     return <h1>Error</h1>;
