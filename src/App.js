@@ -14,6 +14,7 @@ import LocalTaxiIcon from '@material-ui/icons/LocalTaxi';
 import DirectionsBusIcon from '@material-ui/icons/DirectionsBus';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import firebaseConfig from './firebaseConfig';
+import Mess from './pages/Mess';
 
 firebase.initializeApp(firebaseConfig);
 const googleProvider = new firebase.auth.GoogleAuthProvider();
@@ -59,9 +60,8 @@ function App() {
   };
 
   const currentComponent = (tabName) => {
-    if (tabName) {
-      // Need to replace with mess menu page
-      return <p>{tabName}</p>;
+    if (tabName === 'mess') {
+      return <Mess />;
     }
     // Need to show 404
     return <h1>Error</h1>;
