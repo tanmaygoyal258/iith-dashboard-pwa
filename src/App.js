@@ -19,8 +19,6 @@ import './App.css';
 
 dotenv.config();
 
-console.log(process.env);
-
 firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
