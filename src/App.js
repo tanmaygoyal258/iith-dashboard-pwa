@@ -1,20 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import firebase from 'firebase';
 import dotenv from 'dotenv';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {
-  BottomNavigation,
-  BottomNavigationAction,
   Container,
   CssBaseline,
 } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import RestaurantIcon from '@material-ui/icons/Restaurant';
-import LocalTaxiIcon from '@material-ui/icons/LocalTaxi';
-import DirectionsBusIcon from '@material-ui/icons/DirectionsBus';
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Mess from './pages/Mess';
-
+import Cab from './pages/Cab';
+import Timetable from './pages/TimeTable';
+import Bus from './pages/Bus';
+import BottomNav from './components/BottomNav';
 import './App.css';
 
 dotenv.config();
@@ -65,21 +63,7 @@ const muiTheme = createMuiTheme({
 
 function App() {
   const [user, loading, error] = useAuthState(firebase.auth()); // eslint-disable-line
-  const [currentTab, setCurrentTab] = useState('mess');
   // Replace by apicall
-  const messData = null;
-
-  const handleTabChange = (_, newTab) => {
-    setCurrentTab(newTab);
-  };
-
-  const currentComponent = (tabName) => {
-    if (tabName === 'mess') {
-      return <Mess messData={messData} />;
-    }
-    // Need to show 404
-    return <h1>Error</h1>;
-  };
 
   if (!user) {
     return (
@@ -90,48 +74,30 @@ function App() {
   }
 
   return (
-    <ThemeProvider theme={muiTheme}>
-      <CssBaseline />
-      <Container className="main-container">
-        {currentComponent(currentTab)}
-      </Container>
-      <Container className="bottom-nav" disableGutters maxWidth={false}>
-        <BottomNavigation
-          value={currentTab}
-          onChange={handleTabChange}
-          showLabels
+    <Router>
+      <ThemeProvider theme={muiTheme}>
+        <CssBaseline />
+        <Container className="main-container">
+          <Switch>
+            <Route path='/mess' component={Mess}/>
+            <Route path='/bus' component={Bus}/>
+            <Route path='/timetable' component={Timetable}/>
+            <Route path='/cab' component={Cab}/>
+          </Switch>
+        </Container>
+        <Container className="bottom-nav" disableGutters maxWidth={false}>
+          <BottomNav />
+        </Container>
+        <button
+          type="submit"
+          onClick={() => {
+            firebase.auth().signOut();
+          }}
         >
-          <BottomNavigationAction
-            label="Mess Menu"
-            value="mess"
-            icon={<RestaurantIcon />}
-          />
-          <BottomNavigationAction
-            label="Timetable"
-            value="timetable"
-            icon={<CalendarTodayIcon />}
-          />
-          <BottomNavigationAction
-            label="Cab Sharing"
-            value="cab-sharing"
-            icon={<LocalTaxiIcon />}
-          />
-          <BottomNavigationAction
-            label="Bus Schedule"
-            value="bus-schedule"
-            icon={<DirectionsBusIcon />}
-          />
-        </BottomNavigation>
-      </Container>
-      <button
-        type="submit"
-        onClick={() => {
-          firebase.auth().signOut();
-        }}
-      >
-        Logout
-      </button>
-    </ThemeProvider>
+          Logout
+        </button>
+      </ThemeProvider>
+    </Router>
   );
 }
 
