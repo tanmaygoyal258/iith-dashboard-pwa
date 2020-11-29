@@ -943,39 +943,24 @@ function Mess() {
   const theme = useTheme();
   const [hall, setHall] = useState('LDH');
 
-  const getBreakfast = () => {
-    const listItems = Menu[hall][days[activeStep]].Breakfast;
+  const getMeal = (meal) => {
+    const listItems = Menu[hall][days[activeStep]][meal];
+    const additionalKey = `${hall} Additional`;
+    const extraItems = Menu[additionalKey][days[activeStep]][meal];
     return (
-      <ul>
-        {listItems.map((item) => <li>{item}</li>)}
-      </ul>
-    );
-  };
-
-  const getLunch = () => {
-    const listItems = Menu[hall][days[activeStep]].Lunch;
-    return (
-      <ul>
-        {listItems.map((item) => <li>{item}</li>)}
-      </ul>
-    );
-  };
-
-  const getSnacks = () => {
-    const listItems = Menu[hall][days[activeStep]].Snacks;
-    return (
-      <ul>
-        {listItems.map((item) => <li>{item}</li>)}
-      </ul>
-    );
-  };
-
-  const getDinner = () => {
-    const listItems = Menu[hall][days[activeStep]].Dinner;
-    return (
-      <ul>
-        {listItems.map((item) => <li>{item}</li>)}
-      </ul>
+      <div>
+        <ul>
+          {listItems.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+        <div>Extras</div>
+        <ul>
+          {extraItems.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
     );
   };
 
@@ -1012,7 +997,7 @@ function Mess() {
           <Typography>Breakfast</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>{getBreakfast()}</Typography>
+          <Typography>{getMeal('Breakfast')}</Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -1024,7 +1009,7 @@ function Mess() {
           <Typography>Lunch</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>{getLunch()}</Typography>
+          <Typography>{getMeal('Lunch')}</Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -1036,7 +1021,7 @@ function Mess() {
           <Typography>Snacks</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>{getSnacks()}</Typography>
+          <Typography>{getMeal('Snacks')}</Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -1048,7 +1033,7 @@ function Mess() {
           <Typography>Dinner</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>{getDinner()}</Typography>
+          <Typography>{getMeal('Dinner')}</Typography>
         </AccordionDetails>
       </Accordion>
     </div>
