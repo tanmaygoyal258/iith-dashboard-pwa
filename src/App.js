@@ -1,13 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import firebase from 'firebase';
 import dotenv from 'dotenv';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import {
-  Container,
-  CssBaseline,
-} from '@material-ui/core';
+import { Container, CssBaseline } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Mess from './pages/Mess';
 import Cab from './pages/Cab';
 import Timetable from './pages/TimeTable';
@@ -29,21 +26,6 @@ firebase.initializeApp({
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
-const login = () => {
-  const provider = googleProvider;
-  provider.addScope('profile');
-  provider.addScope('email');
-  firebase
-    .auth()
-    .signInWithPopup(provider)
-    .then((result) => {
-      const token = result.credential.accessToken;
-      const { user } = result;
-      console.log({ user });
-      console.log({ token });
-    });
-};
-
 const muiTheme = createMuiTheme({
   palette: {
     primary: {
@@ -61,9 +43,36 @@ const muiTheme = createMuiTheme({
   },
 });
 
+const login = () => {
+  const provider = googleProvider;
+  provider.addScope('profile');
+  provider.addScope('email');
+  firebase
+    .auth()
+    .signInWithPopup(provider)
+    .then((result) => {
+      const token = result.credential.accessToken;
+      const { user } = result;
+      console.log({ user });
+      console.log({ token });
+    });
+};
+
 function App() {
   const [user, loading, error] = useAuthState(firebase.auth()); // eslint-disable-line
-  // Replace by apicall
+  const [messData, setMessData] = useState({});
+
+  useEffect(() => {
+    fetch(process.env.REACT_APP_MESS_API_ENDPOINT)
+      .then((res) => res.json())
+      .then((res) => {
+        setMessData(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        setMessData(null);
+      });
+  }, [setMessData]);
 
   if (!user) {
     return (
@@ -79,10 +88,18 @@ function App() {
         <CssBaseline />
         <Container className="main-container">
           <Switch>
-            <Route path='/mess' component={Mess}/>
-            <Route path='/bus' component={Bus}/>
-            <Route path='/timetable' component={Timetable}/>
-            <Route path='/cab' component={Cab}/>
+            <Route path="/mess">
+              <Mess messData={messData} />
+            </Route>
+            <Route path="/cab">
+              <Cab />
+            </Route>
+            <Route path="/bus">
+              <Bus />
+            </Route>
+            <Route path="/timetable">
+              <Timetable />
+            </Route>
           </Switch>
         </Container>
         <Container className="bottom-nav" disableGutters maxWidth={false}>
