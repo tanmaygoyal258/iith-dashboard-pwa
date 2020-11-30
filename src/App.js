@@ -10,6 +10,8 @@ import Cab from './pages/Cab';
 import Timetable from './pages/TimeTable';
 import Bus from './pages/Bus';
 import BottomNav from './components/BottomNav';
+import NavbarDrawer from './components/NavbarDrawer';
+
 import './App.css';
 
 dotenv.config();
@@ -78,6 +80,7 @@ function App() {
     return (
       <button type="submit" onClick={login}>
         Sign in with google
+        {' '}
       </button>
     );
   }
@@ -86,34 +89,36 @@ function App() {
     <Router>
       <ThemeProvider theme={muiTheme}>
         <CssBaseline />
+        <NavbarDrawer />
         <Container className="main-container">
           <Switch>
             <Route path="/mess">
               <Mess messData={messData} />
+              {' '}
             </Route>
+            {' '}
             <Route path="/cab">
               <Cab />
             </Route>
+            {' '}
             <Route path="/bus">
               <Bus />
             </Route>
+            {' '}
             <Route path="/timetable">
               <Timetable />
             </Route>
+            {' '}
           </Switch>
+          {' '}
         </Container>
+        {' '}
         <Container className="bottom-nav" disableGutters maxWidth={false}>
           <BottomNav />
         </Container>
-        <button
-          type="submit"
-          onClick={() => {
-            firebase.auth().signOut();
-          }}
-        >
-          Logout
-        </button>
+        {' '}
       </ThemeProvider>
+      {' '}
     </Router>
   );
 }
