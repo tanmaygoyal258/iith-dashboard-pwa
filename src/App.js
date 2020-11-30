@@ -5,6 +5,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { Container, CssBaseline } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Home from './pages/Home';
 import Mess from './pages/Mess';
 import Cab from './pages/Cab';
 import Timetable from './pages/TimeTable';
@@ -88,6 +89,9 @@ function App() {
         <CssBaseline />
         <Container className="main-container">
           <Switch>
+            <Route path="/home">
+              <Home />
+            </Route>
             <Route path="/mess">
               <Mess messData={messData} />
             </Route>

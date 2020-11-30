@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
+import HomeIcon from '@material-ui/icons/Home';
 import RestaurantIcon from '@material-ui/icons/Restaurant';
 import LocalTaxiIcon from '@material-ui/icons/LocalTaxi';
 import DirectionsBusIcon from '@material-ui/icons/DirectionsBus';
@@ -7,12 +8,19 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import { Link } from 'react-router-dom';
 
 function BottomNav() {
-  const [currentTab, setCurrentTab] = useState('mess');
+  const [currentTab, setCurrentTab] = useState('home');
   const handleTabChange = (_, newTab) => {
     setCurrentTab(newTab);
   };
   return (
     <BottomNavigation value={currentTab} onChange={handleTabChange} showLabels>
+      <BottomNavigationAction
+        component={Link}
+        to="/home"
+        label="Home"
+        value="home"
+        icon={<HomeIcon />}
+      />
       <BottomNavigationAction
         component={Link}
         to="/mess"
