@@ -102,13 +102,19 @@ function Mess({ Menu }) {
       <div>
         <ul>
           {listItems.map((item) => (
-            <li>{item}</li>
+            <li>
+              <Typography>{item}</Typography>
+            </li>
           ))}
         </ul>
-        <div>Extras</div>
+        <div>
+          <Typography>Extras</Typography>
+        </div>
         <ul>
           {extraItems.map((item) => (
-            <li>{item}</li>
+            <li>
+              <Typography>{item}</Typography>
+            </li>
           ))}
         </ul>
       </div>
@@ -147,9 +153,7 @@ function Mess({ Menu }) {
         >
           <Typography>Breakfast</Typography>
         </AccordionSummary>
-        <AccordionDetails>
-          <Typography>{getMeal('Breakfast')}</Typography>
-        </AccordionDetails>
+        <AccordionDetails>{getMeal('Breakfast')}</AccordionDetails>
       </Accordion>
       <Accordion>
         <AccordionSummary
@@ -159,9 +163,7 @@ function Mess({ Menu }) {
         >
           <Typography>Lunch</Typography>
         </AccordionSummary>
-        <AccordionDetails>
-          <Typography>{getMeal('Lunch')}</Typography>
-        </AccordionDetails>
+        <AccordionDetails>{getMeal('Lunch')}</AccordionDetails>
       </Accordion>
       <Accordion>
         <AccordionSummary
@@ -171,9 +173,7 @@ function Mess({ Menu }) {
         >
           <Typography>Snacks</Typography>
         </AccordionSummary>
-        <AccordionDetails>
-          <Typography>{getMeal('Snacks')}</Typography>
-        </AccordionDetails>
+        <AccordionDetails>{getMeal('Snacks')}</AccordionDetails>
       </Accordion>
       <Accordion>
         <AccordionSummary
@@ -183,9 +183,7 @@ function Mess({ Menu }) {
         >
           <Typography>Dinner</Typography>
         </AccordionSummary>
-        <AccordionDetails>
-          <Typography>{getMeal('Dinner')}</Typography>
-        </AccordionDetails>
+        <AccordionDetails>{getMeal('Dinner')}</AccordionDetails>
       </Accordion>
     </div>
   );
