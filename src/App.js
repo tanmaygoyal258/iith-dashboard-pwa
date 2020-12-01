@@ -97,7 +97,7 @@ function App() {
               <Home />
             </Route>
             <Route path="/mess">
-              <Mess messData={messData} />
+              <Mess Menu={messData} />
               {' '}
             </Route>
             {' '}
