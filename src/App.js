@@ -111,31 +111,22 @@ function App() {
             </Route>
             <Route path="/mess">
               <Mess Menu={messData} />
-              {' '}
             </Route>
-            {' '}
             <Route path="/cab">
               <Cab />
             </Route>
-            {' '}
             <Route path="/bus">
-              <Bus />
+              <Bus schedule={busData} />
             </Route>
-            {' '}
             <Route path="/timetable">
               <Timetable />
             </Route>
-            {' '}
           </Switch>
-          {' '}
         </Container>
-        {' '}
         <Container className="bottom-nav" disableGutters maxWidth={false}>
           <BottomNav />
         </Container>
-        {' '}
       </ThemeProvider>
-      {' '}
     </Router>
   );
 }
