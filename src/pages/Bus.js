@@ -80,12 +80,12 @@ function Bus({ schedule }) {
     );
   };
 
-  if (Object.keys(schedule).length === 0) {
-    return <h1>Loading...</h1>;
+  if (schedule === null || schedule === undefined) {
+    return <h1>Error</h1>;
   }
 
-  if (schedule === null) {
-    return <h1>Error</h1>;
+  if (Object.keys(schedule).length === 0) {
+    return <h1>Loading...</h1>;
   }
 
   return (
