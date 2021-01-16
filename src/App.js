@@ -64,6 +64,7 @@ const login = () => {
 function App() {
   const [user, loading, error] = useAuthState(firebase.auth()); // eslint-disable-line
   const [messData, setMessData] = useState({});
+  const [busData, setBusData] = useState({}); // eslint-disable-line
 
   useEffect(() => {
     fetch(process.env.REACT_APP_MESS_API_ENDPOINT)
@@ -76,6 +77,18 @@ function App() {
         setMessData(null);
       });
   }, [setMessData]);
+
+  useEffect(() => {
+    fetch(process.env.REACT_APP_BUS_API_ENDPOINT)
+      .then((res) => res.json())
+      .then((res) => {
+        setBusData(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        setBusData(null);
+      });
+  }, [setBusData]);
 
   if (!user) {
     return (
@@ -98,31 +111,22 @@ function App() {
             </Route>
             <Route path="/mess">
               <Mess Menu={messData} />
-              {' '}
             </Route>
-            {' '}
             <Route path="/cab">
               <Cab />
             </Route>
-            {' '}
             <Route path="/bus">
-              <Bus />
+              <Bus schedule={busData} />
             </Route>
-            {' '}
             <Route path="/timetable">
               <Timetable />
             </Route>
-            {' '}
           </Switch>
-          {' '}
         </Container>
-        {' '}
         <Container className="bottom-nav" disableGutters maxWidth={false}>
           <BottomNav />
         </Container>
-        {' '}
       </ThemeProvider>
-      {' '}
     </Router>
   );
 }

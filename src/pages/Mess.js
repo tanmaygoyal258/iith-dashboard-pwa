@@ -94,6 +94,11 @@ function Mess({ Menu }) {
   const theme = useTheme();
   const [hall, setHall] = useState('LDH');
 
+  const toggleHall = () => {
+    if (hall === 'LDH') setHall('UDH');
+    else setHall('LDH');
+  };
+
   const getMeal = (meal) => {
     const listItems = Menu[hall][days[activeStep]][meal];
     const additionalKey = `${hall} Additional`;
@@ -142,8 +147,7 @@ function Mess({ Menu }) {
         ))}
       </Stepper>
       <ButtonGroup disableElevation variant="contained" color="primary">
-        <Button onClick={() => setHall('LDH')}>LDH</Button>
-        <Button onClick={() => setHall('UDH')}>UDH</Button>
+        <Button onClick={() => toggleHall()}>{hall}</Button>
       </ButtonGroup>
       <Accordion>
         <AccordionSummary
