@@ -12,15 +12,15 @@
     "firebase": "^8.1.1",
     "husky": "^4.3.0",
     "lint-staged": "^10.4.0",
+    "moment": "^2.29.1",
     "prettier": "^2.1.2",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
+    "react-big-calendar": "^0.31.0",
     "react-dom": "^16.13.1",
     "react-firebase-hooks": "^2.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3",
-    "react-window": "^1.8.6",
-    "unfetcher": "^1.1.2"
+    "react-scripts": "3.4.3"
   },
   "scripts": {
     "start": "react-scripts start",
