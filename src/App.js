@@ -57,7 +57,7 @@ function App() {
   const [user, loading, error] = useAuthState(firebase.auth()); // eslint-disable-line
   const db = firebase.firestore();
   const [messData, setMessData] = useState({});
-  const [busData, setBusData] = useState({}); // eslint-disable-line
+  const [busData, setBusData] = useState({});
 
   useEffect(() => {
     fetch(process.env.REACT_APP_MESS_API_ENDPOINT)
