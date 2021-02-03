@@ -91,19 +91,22 @@ function App() {
       </button>
     );
   }
-  db.collection('users')
-    .where('email', '==', user.email)
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, ' => ', doc.data());
+  if (user && !loading && !error) {
+    console.log(user.uid);
+    const docRef = db.collection('users').doc(user.uid);
+    docRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          console.log('Document data:', doc.data());
+        } else {
+          console.log('No such document');
+        }
+      })
+      .catch((err) => {
+        console.log('Error getting document:', err);
       });
-    })
-    .catch((err) => {
-      console.log('Error getting documents: ', err);
-      console.log(user.email);
-    });
+  }
   return (
     <Router>
       <ThemeProvider theme={muiTheme}>
