@@ -50,19 +50,12 @@ const login = () => {
   const provider = googleProvider;
   provider.addScope('profile');
   provider.addScope('email');
-  firebase
-    .auth()
-    .signInWithPopup(provider)
-    .then((result) => {
-      const token = result.credential.accessToken;
-      const { user } = result;
-      console.log({ user });
-      console.log({ token });
-    });
+  firebase.auth().signInWithPopup(provider);
 };
 
 function App() {
   const [user, loading, error] = useAuthState(firebase.auth()); // eslint-disable-line
+  const db = firebase.firestore();
   const [messData, setMessData] = useState({});
   const [busData, setBusData] = useState({}); // eslint-disable-line
 
@@ -98,7 +91,19 @@ function App() {
       </button>
     );
   }
-
+  db.collection('users')
+    .where('email', '==', user.email)
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, ' => ', doc.data());
+      });
+    })
+    .catch((err) => {
+      console.log('Error getting documents: ', err);
+      console.log(user.email);
+    });
   return (
     <Router>
       <ThemeProvider theme={muiTheme}>

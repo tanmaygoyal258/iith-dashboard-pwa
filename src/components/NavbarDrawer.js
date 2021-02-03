@@ -88,6 +88,7 @@ function NavbarDrawer() {
           type="submit"
           onClick={() => {
             firebase.auth().signOut();
+            window.location.reload();
           }}
         >
           <ListItemIcon>
