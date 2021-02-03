@@ -5,6 +5,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { Container, CssBaseline } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import ls from 'local-storage';
 import Home from './pages/Home';
 import Mess from './pages/Mess';
 import Cab from './pages/Cab';
@@ -55,6 +56,8 @@ const login = () => {
 
 function App() {
   const [user, loading, error] = useAuthState(firebase.auth()); // eslint-disable-line
+  const masterKey = 'masterkey';
+  const aimsKey = 'aimskey';
   const db = firebase.firestore();
   const [messData, setMessData] = useState({});
   const [busData, setBusData] = useState({});
@@ -92,13 +95,22 @@ function App() {
     );
   }
   if (user && !loading && !error) {
-    console.log(user.uid);
     const docRef = db.collection('users').doc(user.uid);
     docRef
       .get()
       .then((doc) => {
         if (doc.exists) {
-          console.log('Document data:', doc.data());
+          const tt = {};
+          tt.identifiedCourses = doc.data().identifiedCourses;
+          tt.identifiedSegments = doc.data().identifiedSegments;
+          tt.identifiedSlots = doc.data().identifiedSlots;
+          const old = ls.get(aimsKey);
+          console.log(old);
+          if (JSON.stringify(old) !== JSON.stringify(tt)) {
+            ls.set(aimsKey, tt);
+            console.log('gay');
+            ls.set(masterKey, tt);
+          }
         } else {
           console.log('No such document');
         }
@@ -127,7 +139,7 @@ function App() {
               <Bus schedule={busData} />
             </Route>
             <Route path="/timetable">
-              <Timetable />
+              <Timetable keys={[masterKey, aimsKey]} />
             </Route>
           </Switch>
         </Container>
