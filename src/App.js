@@ -5,7 +5,6 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { Container, CssBaseline } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import ls from 'local-storage';
 import Home from './pages/Home';
 import Mess from './pages/Mess';
 import Cab from './pages/Cab';
@@ -13,6 +12,8 @@ import Timetable from './pages/TimeTable';
 import Bus from './pages/Bus';
 import BottomNav from './components/BottomNav';
 import NavbarDrawer from './components/NavbarDrawer';
+
+import makeEventList from './makeEventList';
 
 import './App.css';
 
@@ -56,11 +57,20 @@ const login = () => {
 
 function App() {
   const [user, loading, error] = useAuthState(firebase.auth()); // eslint-disable-line
-  const masterKey = 'masterkey';
-  const aimsKey = 'aimskey';
-  const db = firebase.firestore();
   const [messData, setMessData] = useState({});
   const [busData, setBusData] = useState({});
+
+  const masterKey = 'masterkey';
+  const aimsKey = 'aimskey';
+
+  const [aimsTimetable, setAimsTimetable] = useState(
+    JSON.parse(localStorage.getItem(aimsKey)) || null,
+  );
+  const [eventList, setEventList] = useState(
+    JSON.parse(localStorage.getItem(masterKey)) || [],
+  );
+
+  const db = firebase.firestore();
 
   useEffect(() => {
     fetch(process.env.REACT_APP_MESS_API_ENDPOINT)
@@ -86,6 +96,37 @@ function App() {
       });
   }, [setBusData]);
 
+  useEffect(() => {
+    if (user && !loading && !error) {
+      const docRef = db.collection('users').doc(user.uid);
+      docRef
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            const tt = {};
+            tt.identifiedCourses = doc.data().identifiedCourses;
+            tt.identifiedSegments = doc.data().identifiedSegments;
+            tt.identifiedSlots = doc.data().identifiedSlots;
+
+            if (JSON.stringify(aimsTimetable) !== JSON.stringify(tt)) {
+              const newEventList = makeEventList(tt);
+              console.log(newEventList);
+
+              localStorage.setItem(masterKey, JSON.stringify(newEventList));
+              setEventList(newEventList);
+              localStorage.setItem(aimsKey, JSON.stringify(tt));
+              setAimsTimetable(tt);
+            }
+          } else {
+            console.log('No such document');
+          }
+        })
+        .catch((err) => {
+          console.log('Error getting document:', err);
+        });
+    }
+  }, [user, loading, error, db]);
+
   if (!user) {
     return (
       <button type="submit" onClick={login}>
@@ -94,31 +135,7 @@ function App() {
       </button>
     );
   }
-  if (user && !loading && !error) {
-    const docRef = db.collection('users').doc(user.uid);
-    docRef
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          const tt = {};
-          tt.identifiedCourses = doc.data().identifiedCourses;
-          tt.identifiedSegments = doc.data().identifiedSegments;
-          tt.identifiedSlots = doc.data().identifiedSlots;
-          const old = ls.get(aimsKey);
-          console.log(old);
-          if (JSON.stringify(old) !== JSON.stringify(tt)) {
-            ls.set(aimsKey, tt);
-            console.log('gay');
-            ls.set(masterKey, tt);
-          }
-        } else {
-          console.log('No such document');
-        }
-      })
-      .catch((err) => {
-        console.log('Error getting document:', err);
-      });
-  }
+
   return (
     <Router>
       <ThemeProvider theme={muiTheme}>
@@ -139,7 +156,7 @@ function App() {
               <Bus schedule={busData} />
             </Route>
             <Route path="/timetable">
-              <Timetable keys={[masterKey, aimsKey]} />
+              <Timetable eventList={eventList} />
             </Route>
           </Switch>
         </Container>
