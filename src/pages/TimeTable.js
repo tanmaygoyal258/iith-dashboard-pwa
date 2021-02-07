@@ -8,13 +8,16 @@ const localizer = momentLocalizer(moment);
 
 function TimeTable({ eventList }) {
   console.log(eventList);
+
+  // Custom accessors needed since the eventList is stored in localStorage, where the
+  // Date is stringified
   return (
     <Calendar
       localizer={localizer}
       events={eventList}
       defaultDate={new Date()}
-      startAccessor="start"
-      endAccessor="end"
+      startAccessor={(event) => new Date(event.start)}
+      endAccessor={(event) => new Date(event.end)}
       style={{ height: 500 }}
     />
   );
