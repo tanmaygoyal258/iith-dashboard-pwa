@@ -72,31 +72,7 @@ function App() {
 
   const db = firebase.firestore();
 
-  useEffect(() => {
-    fetch(process.env.REACT_APP_MESS_API_ENDPOINT)
-      .then((res) => res.json())
-      .then((res) => {
-        setMessData(res);
-      })
-      .catch((err) => {
-        console.log(err);
-        setMessData(null);
-      });
-  }, [setMessData]);
-
-  useEffect(() => {
-    fetch(process.env.REACT_APP_BUS_API_ENDPOINT)
-      .then((res) => res.json())
-      .then((res) => {
-        setBusData(res);
-      })
-      .catch((err) => {
-        console.log(err);
-        setBusData(null);
-      });
-  }, [setBusData]);
-
-  useEffect(() => {
+  const updateTT = () => {
     if (user && !loading && !error) {
       const docRef = db.collection('users').doc(user.uid);
       docRef
@@ -125,7 +101,31 @@ function App() {
           console.log('Error getting document:', err);
         });
     }
-  }, [user, loading, error, db]);
+  };
+
+  useEffect(() => {
+    fetch(process.env.REACT_APP_MESS_API_ENDPOINT)
+      .then((res) => res.json())
+      .then((res) => {
+        setMessData(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        setMessData(null);
+      });
+  }, [setMessData]);
+
+  useEffect(() => {
+    fetch(process.env.REACT_APP_BUS_API_ENDPOINT)
+      .then((res) => res.json())
+      .then((res) => {
+        setBusData(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        setBusData(null);
+      });
+  }, [setBusData]);
 
   if (!user) {
     return (
@@ -140,7 +140,7 @@ function App() {
     <Router>
       <ThemeProvider theme={muiTheme}>
         <CssBaseline />
-        <NavbarDrawer />
+        <NavbarDrawer work={updateTT} />
         <Container className="main-container">
           <Switch>
             <Route path="/home">

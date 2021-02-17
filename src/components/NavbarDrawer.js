@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import firebase from 'firebase';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NavbarDrawer() {
+function NavbarDrawer({ work }) {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   function handleDrawerToggle() {
@@ -65,11 +66,16 @@ function NavbarDrawer() {
         </ListItem>
       </List>
       <List>
-        <ListItem button key="Settings">
+        <ListItem
+          button
+          key="Sync with aims timetable"
+          type="submit"
+          onClick={work()}
+        >
           <ListItemIcon>
             <SettingsIcon />
           </ListItemIcon>
-          <ListItemText primary="Settings" />
+          <ListItemText primary="Sync with aims timetable" />
         </ListItem>
       </List>
       <List>
@@ -87,6 +93,7 @@ function NavbarDrawer() {
           key="Logout"
           type="submit"
           onClick={() => {
+            localStorage.clear();
             firebase.auth().signOut();
             window.location.reload();
           }}
@@ -155,4 +162,8 @@ function NavbarDrawer() {
     </div>
   );
 }
+NavbarDrawer.propTypes = {
+  work: PropTypes.func,
+};
+NavbarDrawer.defaultProps = { work: [] };
 export default NavbarDrawer;
