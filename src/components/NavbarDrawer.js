@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NavbarDrawer({ work }) {
+function NavbarDrawer({ updateTT }) {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   function handleDrawerToggle() {
@@ -70,7 +70,7 @@ function NavbarDrawer({ work }) {
           button
           key="Sync with aims timetable"
           type="submit"
-          onClick={work()}
+          onClick={updateTT}
         >
           <ListItemIcon>
             <SettingsIcon />
@@ -163,7 +163,7 @@ function NavbarDrawer({ work }) {
   );
 }
 NavbarDrawer.propTypes = {
-  work: PropTypes.func,
+  updateTT: PropTypes.func,
 };
-NavbarDrawer.defaultProps = { work: [] };
+NavbarDrawer.defaultProps = { updateTT: [] };
 export default NavbarDrawer;

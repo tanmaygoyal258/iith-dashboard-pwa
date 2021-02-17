@@ -140,7 +140,7 @@ function App() {
     <Router>
       <ThemeProvider theme={muiTheme}>
         <CssBaseline />
-        <NavbarDrawer work={updateTT} />
+        <NavbarDrawer updateTT={updateTT} />
         <Container className="main-container">
           <Switch>
             <Route path="/home">
