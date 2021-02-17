@@ -18,6 +18,7 @@ function TimeTable({ eventList }) {
       defaultDate={new Date()}
       startAccessor={(event) => new Date(event.start)}
       endAccessor={(event) => new Date(event.end)}
+      scrollToTime={moment().hour(9).toDate()}
       style={{ height: 500 }}
     />
   );
