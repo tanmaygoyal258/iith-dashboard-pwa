@@ -87,7 +87,6 @@ function App() {
             if (JSON.stringify(aimsTimetable) !== JSON.stringify(tt)) {
               const newEventList = makeEventList(tt);
               console.log(newEventList);
-
               localStorage.setItem(masterKey, JSON.stringify(newEventList));
               setEventList(newEventList);
               localStorage.setItem(aimsKey, JSON.stringify(tt));
