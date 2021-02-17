@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,6 +18,7 @@ function TimeTable({ eventList }) {
   const [open, setOpen] = React.useState(false);
   const [title, setTitle] = React.useState('Null');
   const [startDate, setStartDate] = React.useState(null);
+  const [def, setDefault] = React.useState(null);
   const [endDate, setEndDate] = React.useState(null);
   const handleClickOpen = () => {
     setOpen(true);
@@ -33,6 +34,22 @@ function TimeTable({ eventList }) {
       width: 200,
     },
   }));
+
+  useEffect(() => {
+    const today = new Date();
+    const date = `${today.getFullYear().toString()
+    }-${
+      today.getMonth() + 1 < 10
+        ? `0${(today.getMonth() + 1).toString()}`
+        : (today.getMonth() + 1).toString()
+    }-${
+      today.getDate().toString()
+    }T${
+      today.getHours().toString()
+    }:${
+      today.getMinutes().toString()}`;
+    setDefault(date);
+  }, []);
 
   const classes = useStyles();
 
@@ -95,7 +112,7 @@ function TimeTable({ eventList }) {
             id="start_date"
             label="Start time"
             type="datetime-local"
-            defaultValue="2017-05-24T10:30"
+            defaultValue={def}
             className={classes.textField}
             onChange={handleStartChange}
             InputLabelProps={{
@@ -106,7 +123,7 @@ function TimeTable({ eventList }) {
             id="start_date"
             label="Start time"
             type="datetime-local"
-            defaultValue="2017-05-24T10:30"
+            defaultValue={def}
             className={classes.textField}
             onChange={handleEndChange}
             InputLabelProps={{
