@@ -13,6 +13,8 @@ import Bus from './pages/Bus';
 import BottomNav from './components/BottomNav';
 import NavbarDrawer from './components/NavbarDrawer';
 
+import makeEventList from './makeEventList';
+
 import './App.css';
 
 dotenv.config();
@@ -50,21 +52,56 @@ const login = () => {
   const provider = googleProvider;
   provider.addScope('profile');
   provider.addScope('email');
-  firebase
-    .auth()
-    .signInWithPopup(provider)
-    .then((result) => {
-      const token = result.credential.accessToken;
-      const { user } = result;
-      console.log({ user });
-      console.log({ token });
-    });
+  firebase.auth().signInWithPopup(provider);
 };
 
 function App() {
   const [user, loading, error] = useAuthState(firebase.auth()); // eslint-disable-line
   const [messData, setMessData] = useState({});
   const [busData, setBusData] = useState({});
+
+  const masterKey = 'masterkey';
+  const aimsKey = 'aimskey';
+
+  const [aimsTimetable, setAimsTimetable] = useState(
+    JSON.parse(localStorage.getItem(aimsKey)) || null,
+  );
+  const [eventList, setEventList] = useState(
+    JSON.parse(localStorage.getItem(masterKey)) || [],
+  );
+
+  const db = firebase.firestore();
+
+  const updateTT = () => {
+    if (user && !loading && !error) {
+      const docRef = db.collection('users').doc(user.uid);
+      docRef
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            const tt = {};
+            tt.identifiedCourses = doc.data().identifiedCourses;
+            tt.identifiedSegments = doc.data().identifiedSegments;
+            tt.identifiedSlots = doc.data().identifiedSlots;
+
+            if (JSON.stringify(aimsTimetable) !== JSON.stringify(tt)) {
+              const newEventList = makeEventList(tt);
+              console.log(newEventList);
+              localStorage.setItem(masterKey, JSON.stringify(newEventList));
+              setEventList(newEventList);
+              localStorage.setItem(aimsKey, JSON.stringify(tt));
+              setAimsTimetable(tt);
+            }
+          } else {
+            console.log('No such document');
+          }
+        })
+        .catch((err) => {
+          console.log('Error getting document:', err);
+        });
+    }
+  };
+
 
   useEffect(() => {
     fetch(process.env.REACT_APP_MESS_API_ENDPOINT)
@@ -103,7 +140,7 @@ function App() {
     <Router>
       <ThemeProvider theme={muiTheme}>
         <CssBaseline />
-        <NavbarDrawer />
+        <NavbarDrawer updateTT={updateTT} />
         <Container className="main-container">
           <Switch>
             <Route path="/home">
@@ -119,7 +156,7 @@ function App() {
               <Bus schedule={busData} />
             </Route>
             <Route path="/timetable">
-              <Timetable />
+              <Timetable eventList={eventList} />
             </Route>
           </Switch>
         </Container>
