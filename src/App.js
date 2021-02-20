@@ -102,6 +102,7 @@ function App() {
     }
   };
 
+
   useEffect(() => {
     fetch(process.env.REACT_APP_MESS_API_ENDPOINT)
       .then((res) => res.json())
