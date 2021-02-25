@@ -102,7 +102,6 @@ function App() {
     }
   };
 
-
   useEffect(() => {
     fetch(process.env.REACT_APP_MESS_API_ENDPOINT)
       .then((res) => res.json())
@@ -144,7 +143,7 @@ function App() {
         <Container className="main-container">
           <Switch>
             <Route path="/home">
-              <Home />
+              <Home Menu={messData} />
             </Route>
             <Route path="/mess">
               <Mess Menu={messData} />
