@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
+import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles({
   root: {
@@ -22,6 +25,18 @@ const useStyles = makeStyles({
   },
 });
 
+const useStyles2 = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    fontSize: 14,
+  },
+}));
+
 const days = [
   'Sunday',
   'Monday',
@@ -32,11 +47,97 @@ const days = [
   'Saturday',
 ];
 
-function Home({ Menu }) {
+function Home({ Menu, schedule }) {
+  const [times, setTimes] = useState(null);
+  const [start, setStart] = useState(0);
   const date = new Date();
   const activeStep = date.getDay();
   const classes = useStyles();
+  const classes2 = useStyles2();
   const hall = 'LDH';
+  useEffect(() => {
+    const hours = date.getHours() + date.getMinutes() / 60;
+    const buses = [];
+    let check = 0;
+    if (start === 0) {
+      let timeSet = schedule.ToIITH.LINGAMPALLY.map((x) => x);
+      for (let i = 0; i < timeSet.length; i += 1) {
+        const index = timeSet[i].lastIndexOf(':');
+        const hoursText = parseFloat(timeSet[i].substring(0, index))
+          + parseFloat(timeSet[i].substring(index + 1, timeSet[i].length)) / 60;
+        if (hoursText > hours) {
+          check = 1;
+          buses.push(timeSet[i]);
+          break;
+        }
+      }
+      if (check === 0) buses.push(timeSet[0]);
+      check = 0;
+      timeSet = schedule.ToIITH.LAB.map((x) => x);
+      for (let i = 0; i < timeSet.length; i += 1) {
+        const index = timeSet[i].lastIndexOf(':');
+        const hoursText = parseFloat(timeSet[i].substring(0, index))
+          + parseFloat(timeSet[i].substring(index + 1, timeSet[i].length)) / 60;
+        if (hoursText > hours) {
+          check = 1;
+          buses.push(timeSet[i]);
+          break;
+        }
+      }
+      if (check === 0) buses.push(timeSet[0]);
+      check = 0;
+      timeSet = schedule.ToIITH.SANGAREDDY.map((x) => x);
+      for (let i = 0; i < timeSet.length; i += 1) {
+        const index = timeSet[i].lastIndexOf(':');
+        const hoursText = parseFloat(timeSet[i].substring(0, index))
+          + parseFloat(timeSet[i].substring(index + 1, timeSet[i].length)) / 60;
+        if (hoursText > hours) {
+          check = 1;
+          buses.push(timeSet[i]);
+          break;
+        }
+      }
+    } else {
+      let timeSet = schedule.FromIITH.LINGAMPALLY.map((x) => x);
+      for (let i = 0; i < timeSet.length; i += 1) {
+        const index = timeSet[i].lastIndexOf(':');
+        const hoursText = parseFloat(timeSet[i].substring(0, index))
+          + parseFloat(timeSet[i].substring(index + 1, timeSet[i].length)) / 60;
+        if (hoursText > hours) {
+          check = 1;
+          buses.push(timeSet[i]);
+          break;
+        }
+      }
+      if (check === 0) buses.push(timeSet[0]);
+      check = 0;
+      timeSet = schedule.FromIITH.LAB.map((x) => x);
+      for (let i = 0; i < timeSet.length; i += 1) {
+        const index = timeSet[i].lastIndexOf(':');
+        const hoursText = parseFloat(timeSet[i].substring(0, index))
+          + parseFloat(timeSet[i].substring(index + 1, timeSet[i].length)) / 60;
+        if (hoursText > hours) {
+          check = 1;
+          buses.push(timeSet[i]);
+          break;
+        }
+      }
+      if (check === 0) buses.push(timeSet[0]);
+      check = 0;
+      timeSet = schedule.FromIITH.SANGAREDDY.map((x) => x);
+      for (let i = 0; i < timeSet.length; i += 1) {
+        const index = timeSet[i].lastIndexOf(':');
+        const hoursText = parseFloat(timeSet[i].substring(0, index))
+          + parseFloat(timeSet[i].substring(index + 1, timeSet[i].length)) / 60;
+        if (hoursText > hours) {
+          check = 1;
+          buses.push(timeSet[i]);
+          break;
+        }
+      }
+    }
+    setTimes(buses);
+  }, [schedule, start]);
 
   const getMeal = (meal) => {
     const listItems = Menu[hall][days[activeStep]][meal];
@@ -64,10 +165,12 @@ function Home({ Menu }) {
       </div>
     );
   };
-
+  const toggleStart = () => {
+    const newStart = 1 - start;
+    setStart(newStart);
+  };
   const getMealKey = () => {
     const hours = date.getHours() + date.getMinutes() / 60;
-    console.log(hours);
     if (hours >= 10 && hours <= 15) return 'Lunch';
     if (hours >= 15 && hours <= 18.5) return 'Snacks';
     if (hours >= 18.5 && hours <= 22.5) return 'Dinner';
@@ -86,16 +189,47 @@ function Home({ Menu }) {
           </Typography>
         </CardContent>
       </Card>
+      <Button color="primary" letiant="contained" onClick={() => toggleStart()}>
+        {start === 0 ? 'To IITH' : 'From IITH'}
+      </Button>
+      <Grid container spacing={0} className={classes2.root}>
+        <Grid item xs={4}>
+          <Paper className={classes.paper}>Lingampally</Paper>
+        </Grid>
+        <Grid item xs={4}>
+          <Paper className={classes.paper}>MainGate</Paper>
+        </Grid>
+        <Grid item xs={4}>
+          <Paper className={classes.paper}>Sangareddy</Paper>
+        </Grid>
+        <Grid item xs={4}>
+          <Paper className={classes.paper}>
+            {times != null ? times[0] : 'loading'}
+          </Paper>
+        </Grid>
+        <Grid item xs={4}>
+          <Paper className={classes.paper}>
+            {times != null ? times[1] : 'loading'}
+          </Paper>
+        </Grid>
+        <Grid item xs={4}>
+          <Paper className={classes.paper}>
+            {times != null ? times[2] : 'loading'}
+          </Paper>
+        </Grid>
+      </Grid>
     </div>
   );
 }
 
 Home.propTypes = {
   Menu: PropTypes.objectOf(PropTypes.object),
+  schedule: PropTypes.objectOf(PropTypes.object),
 };
 
 Home.defaultProps = {
   Menu: {},
+  schedule: {},
 };
 
 export default Home;

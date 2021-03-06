@@ -37,13 +37,13 @@ const muiTheme = createMuiTheme({
       light: '#000000',
       main: '#9c5cb4',
       dark: '#002884',
-      contrastText: '#666666',
+      contrastText: '#FFFFFF',
     },
     secondary: {
       light: '#ff7961',
       main: '#f44336',
       dark: '#ba000d',
-      contrastText: '#666666',
+      contrastText: '#FFFFFF',
     },
   },
 });
@@ -143,7 +143,7 @@ function App() {
         <Container className="main-container">
           <Switch>
             <Route path="/home">
-              <Home Menu={messData} />
+              <Home Menu={messData} schedule={busData} />
             </Route>
             <Route path="/mess">
               <Mess Menu={messData} />
