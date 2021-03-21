@@ -62,15 +62,40 @@ function App() {
 
   const masterKey = 'masterkey';
   const aimsKey = 'aimskey';
+  const customKey = 'customkey';
 
   const [aimsTimetable, setAimsTimetable] = useState(
     JSON.parse(localStorage.getItem(aimsKey)) || null,
+  );
+  const [customEvents, setCustomEvents] = useState(
+    JSON.parse(localStorage.getItem(customKey)) || [],
   );
   const [eventList, setEventList] = useState(
     JSON.parse(localStorage.getItem(masterKey)) || [],
   );
 
   const db = firebase.firestore();
+
+  const addCustomEvent = (eventName, startTime, endTime) => {
+    const newEvent = {
+      title: eventName,
+      start: new Date(startTime),
+      end: new Date(endTime),
+    };
+    localStorage.setItem(
+      customKey,
+      JSON.stringify([...customEvents, newEvent]),
+    );
+
+    const newEventList = makeEventList(aimsTimetable, [
+      ...customEvents,
+      newEvent,
+    ]);
+    localStorage.setItem(masterKey, JSON.stringify(newEventList));
+
+    setEventList(newEventList);
+    setCustomEvents((currentList) => [...currentList, newEvent]);
+  };
 
   const updateTT = () => {
     if (user && !loading && !error) {
@@ -85,7 +110,7 @@ function App() {
             tt.identifiedSlots = doc.data().identifiedSlots;
 
             if (JSON.stringify(aimsTimetable) !== JSON.stringify(tt)) {
-              const newEventList = makeEventList(tt);
+              const newEventList = makeEventList(tt, customEvents);
               console.log(newEventList);
               localStorage.setItem(masterKey, JSON.stringify(newEventList));
               setEventList(newEventList);
@@ -155,7 +180,10 @@ function App() {
               <Bus schedule={busData} />
             </Route>
             <Route path="/timetable">
-              <Timetable eventList={eventList} />
+              <Timetable
+                eventList={eventList}
+                handleNewCustomEvent={addCustomEvent}
+              />
             </Route>
           </Switch>
         </Container>

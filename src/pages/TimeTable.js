@@ -14,7 +14,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const localizer = momentLocalizer(moment);
 
-function TimeTable({ eventList }) {
+function TimeTable({ eventList, handleNewCustomEvent }) {
   const [open, setOpen] = React.useState(false);
   const [title, setTitle] = React.useState('Null');
   const [startDate, setStartDate] = React.useState(null);
@@ -37,17 +37,15 @@ function TimeTable({ eventList }) {
 
   useEffect(() => {
     const today = new Date();
-    const date = `${today.getFullYear().toString()
-    }-${
+    const date = `${today.getFullYear().toString()}-${
       today.getMonth() + 1 < 10
         ? `0${(today.getMonth() + 1).toString()}`
         : (today.getMonth() + 1).toString()
-    }-${
-      today.getDate().toString()
-    }T${
-      today.getHours().toString()
-    }:${
-      today.getMinutes().toString()}`;
+    }-${today
+      .getDate()
+      .toString()}T${today
+      .getHours()
+      .toString()}:${today.getMinutes().toString()}`;
     setDefault(date);
   }, []);
 
@@ -70,7 +68,13 @@ function TimeTable({ eventList }) {
   };
 
   const genNewEvent = () => {
-    // YOUR CODE HERE
+    if (!startDate || !endDate) {
+      alert('Start and End Times must be specified to create a new event');
+      handleClose();
+      return;
+    }
+    // TODO: Ensure that end date is after start date, might mess up the Calendar library otherwise
+    handleNewCustomEvent(title, startDate, endDate);
     handleClose();
   };
 
@@ -120,8 +124,8 @@ function TimeTable({ eventList }) {
             }}
           />
           <TextField
-            id="start_date"
-            label="Start time"
+            id="end_date"
+            label="End time"
             type="datetime-local"
             defaultValue={def}
             className={classes.textField}
@@ -137,19 +141,20 @@ function TimeTable({ eventList }) {
           </Button>
         </DialogActions>
       </Dialog>
-      <div>{title}</div>
-      <div>{startDate}</div>
-      <div>{endDate}</div>
     </div>
   );
 }
 
 TimeTable.propTypes = {
   eventList: PropTypes.arrayOf(PropTypes.object),
+  handleNewCustomEvent: PropTypes.func,
 };
 
 TimeTable.defaultProps = {
   eventList: [],
+  handleNewCustomEvent: () => {
+    alert('Error, please try again later');
+  },
 };
 
 export default TimeTable;
