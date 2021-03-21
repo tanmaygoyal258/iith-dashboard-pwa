@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import RestaurantIcon from '@material-ui/icons/Restaurant';
@@ -12,6 +12,14 @@ function BottomNav() {
   const handleTabChange = (_, newTab) => {
     setCurrentTab(newTab);
   };
+
+  useEffect(() => {
+    const currentPage = window.location.pathname;
+
+    // Delete the slash prefix
+    setCurrentTab(currentPage.substr(1));
+  }, [setCurrentTab]);
+
   return (
     <BottomNavigation value={currentTab} onChange={handleTabChange} showLabels>
       <BottomNavigationAction
@@ -39,14 +47,14 @@ function BottomNav() {
         component={Link}
         to="/cab"
         label="Cab Sharing"
-        value="cab-sharing"
+        value="cab"
         icon={<LocalTaxiIcon />}
       />
       <BottomNavigationAction
         component={Link}
         to="/bus"
         label="Bus Schedule"
-        value="bus-schedule"
+        value="bus"
         icon={<DirectionsBusIcon />}
       />
     </BottomNavigation>
