@@ -16,10 +16,12 @@ const localizer = momentLocalizer(moment);
 
 function TimeTable({ eventList, handleNewCustomEvent }) {
   const [open, setOpen] = React.useState(false);
-  const [title, setTitle] = React.useState('Null');
-  const [startDate, setStartDate] = React.useState(null);
   const [def, setDefault] = React.useState(null);
-  const [endDate, setEndDate] = React.useState(null);
+
+  let title = '';
+  let startDate = null;
+  let endDate = null;
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -56,15 +58,15 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
   };
 
   const handleTitleChange = (event) => {
-    setTitle(event.target.value);
+    title = event.target.value;
   };
 
   const handleStartChange = (event) => {
-    setStartDate(event.target.value);
+    startDate = event.target.value;
   };
 
   const handleEndChange = (event) => {
-    setEndDate(event.target.value);
+    endDate = event.target.value;
   };
 
   const genNewEvent = () => {
