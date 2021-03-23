@@ -15,7 +15,6 @@ function BottomNav() {
 
   useEffect(() => {
     const currentPage = window.location.pathname;
-
     // Delete the slash prefix
     setCurrentTab(currentPage.substr(1));
   }, [setCurrentTab]);
@@ -24,9 +23,9 @@ function BottomNav() {
     <BottomNavigation value={currentTab} onChange={handleTabChange} showLabels>
       <BottomNavigationAction
         component={Link}
-        to="/home"
+        to=""
         label="Home"
-        value="home"
+        value=""
         icon={<HomeIcon />}
       />
       <BottomNavigationAction

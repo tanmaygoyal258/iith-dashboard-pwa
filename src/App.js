@@ -167,9 +167,6 @@ function App() {
         <NavbarDrawer updateTT={updateTT} />
         <Container className="main-container">
           <Switch>
-            <Route path="/home">
-              <Home Menu={messData} schedule={busData} />
-            </Route>
             <Route path="/mess">
               <Mess Menu={messData} />
             </Route>
@@ -184,6 +181,9 @@ function App() {
                 eventList={eventList}
                 handleNewCustomEvent={addCustomEvent}
               />
+            </Route>
+            <Route path="">
+              <Home Menu={messData} schedule={busData} />
             </Route>
           </Switch>
         </Container>

@@ -76,7 +76,11 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
       return;
     }
     // TODO: Ensure that end date is after start date, might mess up the Calendar library otherwise
-    handleNewCustomEvent(title, startDate, endDate);
+    if (startDate < endDate) {
+      handleNewCustomEvent(title, startDate, endDate);
+    } else {
+      handleNewCustomEvent(title, endDate, startDate);
+    }
     handleClose();
   };
 
