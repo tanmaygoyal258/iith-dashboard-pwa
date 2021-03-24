@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles({
@@ -189,35 +190,52 @@ function Home({ Menu, schedule }) {
           </Typography>
         </CardContent>
       </Card>
-      <Button color="primary" letiant="contained" onClick={() => toggleStart()}>
-        {start === 0 ? 'To IITH' : 'From IITH'}
-      </Button>
-      <Grid container spacing={0} className={classes2.root}>
-        <Grid item xs={4}>
-          <Paper className={classes.paper}>Lingampally</Paper>
-        </Grid>
-        <Grid item xs={4}>
-          <Paper className={classes.paper}>MainGate</Paper>
-        </Grid>
-        <Grid item xs={4}>
-          <Paper className={classes.paper}>Sangareddy</Paper>
-        </Grid>
-        <Grid item xs={4}>
-          <Paper className={classes.paper}>
-            {times != null ? times[0] : 'loading'}
-          </Paper>
-        </Grid>
-        <Grid item xs={4}>
-          <Paper className={classes.paper}>
-            {times != null ? times[1] : 'loading'}
-          </Paper>
-        </Grid>
-        <Grid item xs={4}>
-          <Paper className={classes.paper}>
-            {times != null ? times[2] : 'loading'}
-          </Paper>
-        </Grid>
-      </Grid>
+      <Card className={classes.root}>
+        <CardContent>
+          <Typography>
+            <Grid container spacing={0} className={classes2.root} alignItems="center">
+              <Grid item xs={6} alignItems="center">
+                <Box display="flex" justifyContent="flex-start" bgcolor="background.paper" alignItems="center">
+                  Bus schedule
+                </Box>
+              </Grid>
+              <Grid item xs={6} justifyContent="flex-end" alignitems="center">
+                <Box display="flex" bgcolor="background.paper" justifyContent="flex-end" alignItems="center">
+                  <Button color="primary" variant="contained" onClick={() => toggleStart()}>
+                    {start === 0 ? 'To IITH' : 'From IITH'}
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
+            <Grid container spacing={0} className={classes2.root}>
+              <Grid item xs={4}>
+                <Paper className={classes2.paper}>Lingampally</Paper>
+              </Grid>
+              <Grid item xs={4}>
+                <Paper className={classes2.paper}>MainGate</Paper>
+              </Grid>
+              <Grid item xs={4}>
+                <Paper className={classes2.paper}>Sangareddy</Paper>
+              </Grid>
+              <Grid item xs={4}>
+                <Paper className={classes2.paper}>
+                  {times != null ? times[0] : 'loading'}
+                </Paper>
+              </Grid>
+              <Grid item xs={4}>
+                <Paper className={classes2.paper}>
+                  {times != null ? times[1] : 'loading'}
+                </Paper>
+              </Grid>
+              <Grid item xs={4}>
+                <Paper className={classes2.paper}>
+                  {times != null ? times[2] : 'loading'}
+                </Paper>
+              </Grid>
+            </Grid>
+          </Typography>
+        </CardContent>
+      </Card>
     </div>
   );
 }

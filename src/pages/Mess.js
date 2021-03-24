@@ -11,6 +11,12 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import './Mess.css';
+
 
 const days = [
   'Sunday',
@@ -93,7 +99,6 @@ function Mess({ Menu }) {
   const [activeStep, setActiveStep] = useState(date.getDay());
   const theme = useTheme();
   const [hall, setHall] = useState('LDH');
-
   const toggleHall = () => {
     if (hall === 'LDH') setHall('UDH');
     else setHall('LDH');
@@ -146,49 +151,66 @@ function Mess({ Menu }) {
           </Step>
         ))}
       </Stepper>
-      <ButtonGroup disableElevation variant="contained" color="primary">
-        <Button onClick={() => toggleHall()}>{hall}</Button>
-      </ButtonGroup>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography>Breakfast</Typography>
-        </AccordionSummary>
-        <AccordionDetails>{getMeal('Breakfast')}</AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography>Lunch</Typography>
-        </AccordionSummary>
-        <AccordionDetails>{getMeal('Lunch')}</AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography>Snacks</Typography>
-        </AccordionSummary>
-        <AccordionDetails>{getMeal('Snacks')}</AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography>Dinner</Typography>
-        </AccordionSummary>
-        <AccordionDetails>{getMeal('Dinner')}</AccordionDetails>
-      </Accordion>
+      <Card className="card-props">
+        <CardContent>
+          <Typography>
+            <Grid container spacing={0} className="button-props" alignItems="center">
+              <Grid item xs={6} alignItems="center">
+                <Box display="flex" justifyContent="flex-start" bgcolor="background.paper" alignItems="center">
+                  Mess Menu
+                </Box>
+              </Grid>
+              <Grid item xs={6} alignItems="center" justifyContent="flex-end" alignItems="center">
+                <Box display="flex" bgcolor="background.paper" justifyContent="flex-end" alignItems="center">
+                  <ButtonGroup disableElevation variant="contained" color="primary">
+                    <Button onClick={() => toggleHall()}>{hall}</Button>
+                  </ButtonGroup>
+                </Box>
+              </Grid>
+            </Grid>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <Typography>Breakfast</Typography>
+              </AccordionSummary>
+              <AccordionDetails>{getMeal('Breakfast')}</AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+              >
+                <Typography>Lunch</Typography>
+              </AccordionSummary>
+              <AccordionDetails>{getMeal('Lunch')}</AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+              >
+                <Typography>Snacks</Typography>
+              </AccordionSummary>
+              <AccordionDetails>{getMeal('Snacks')}</AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+              >
+                <Typography>Dinner</Typography>
+              </AccordionSummary>
+              <AccordionDetails>{getMeal('Dinner')}</AccordionDetails>
+            </Accordion>
+          </Typography>
+        </CardContent>
+      </Card>
     </div>
   );
 }

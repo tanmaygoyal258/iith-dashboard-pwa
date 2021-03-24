@@ -24,35 +24,35 @@ function BottomNav() {
       <BottomNavigationAction
         component={Link}
         to=""
-        label="Home"
+        label=""
         value=""
         icon={<HomeIcon />}
       />
       <BottomNavigationAction
         component={Link}
         to="/mess"
-        label="Mess Menu"
+        label=""
         value="mess"
         icon={<RestaurantIcon />}
       />
       <BottomNavigationAction
         component={Link}
         to="/timetable"
-        label="Timetable"
+        label=""
         value="timetable"
         icon={<CalendarTodayIcon />}
       />
       <BottomNavigationAction
         component={Link}
         to="/cab"
-        label="Cab Sharing"
+        label=""
         value="cab"
         icon={<LocalTaxiIcon />}
       />
       <BottomNavigationAction
         component={Link}
         to="/bus"
-        label="Bus Schedule"
+        label=""
         value="bus"
         icon={<DirectionsBusIcon />}
       />
