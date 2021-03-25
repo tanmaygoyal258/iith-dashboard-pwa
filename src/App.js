@@ -45,6 +45,8 @@ const muiTheme = createMuiTheme({
       dark: '#ba000d',
       contrastText: '#FFFFFF',
     },
+    background: {
+    },
   },
 });
 
@@ -183,7 +185,7 @@ function App() {
               />
             </Route>
             <Route path="">
-              <Home Menu={messData} schedule={busData} />
+              <Home Menu={messData} schedule={busData} events={eventList}/>
             </Route>
           </Switch>
         </Container>

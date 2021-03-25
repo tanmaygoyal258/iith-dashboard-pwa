@@ -48,7 +48,7 @@ const days = [
   'Saturday',
 ];
 
-function Home({ Menu, schedule }) {
+function Home({ Menu, schedule, events }) {
   const [times, setTimes] = useState(null);
   const [start, setStart] = useState(0);
   const date = new Date();
@@ -166,6 +166,38 @@ function Home({ Menu, schedule }) {
       </div>
     );
   };
+
+  const getEvents = () => {
+    const today = new Date();
+    let currentEvents = [];
+    for(let i = 0; i < events.length; i = i + 1){
+      let event = events[i];
+      let eventDate = new Date(event.start);
+      if(eventDate.getDate() === today.getDate() && eventDate.getMonth() === today.getMonth() && eventDate.getFullYear() === today.getFullYear()){
+        let newEvent = {};
+        newEvent.title = event.title;
+        let endDate = new Date(event.end);
+        if(eventDate.getDate() === endDate.getDate() && eventDate.getMonth() === endDate.getMonth() && eventDate.getFullYear() === endDate.getFullYear()){
+          newEvent.timestamp = eventDate.getHours().toString() + ":" + (eventDate.getMinutes().toString() === "0" ? "00" : eventDate.getMinutes().toString()) + " - " + endDate.getHours().toString() + ":" + (endDate.getMinutes().toString() === "0" ? "00" : endDate.getMinutes().toString());
+        }
+        else{
+          newEvent.timestamp = "";
+        }
+        currentEvents.push(newEvent);
+      }
+    }
+    return (
+      <div>
+        <ul>
+          {currentEvents.map((item) => (
+            <li>
+              <Typography>{item.title + " " + item.timestamp}</Typography>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
   const toggleStart = () => {
     const newStart = 1 - start;
     setStart(newStart);
@@ -180,6 +212,16 @@ function Home({ Menu, schedule }) {
   const mealKey = getMealKey();
   return (
     <div>
+      <Card className={classes.root}>
+        <CardContent>
+          <Typography>
+            Today&apos;s
+            {' '}
+            Agenda
+            {getEvents()}
+          </Typography>
+        </CardContent>
+      </Card>
       <Card className={classes.root}>
         <CardContent>
           <Typography>
@@ -243,11 +285,13 @@ function Home({ Menu, schedule }) {
 Home.propTypes = {
   Menu: PropTypes.objectOf(PropTypes.object),
   schedule: PropTypes.objectOf(PropTypes.object),
+  events: PropTypes.objectOf(PropTypes.object),
 };
 
 Home.defaultProps = {
   Menu: {},
   schedule: {},
+  events: {},
 };
 
 export default Home;
