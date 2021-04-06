@@ -19,8 +19,9 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
   const [def, setDefault] = React.useState(null);
 
   let title = '';
-  let startDate = null;
-  let endDate = null;
+  let eventDate = null;
+  let startTime = null;
+  let endTime = null;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -75,21 +76,27 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
     title = event.target.value;
   };
 
+  const handleDateChange = (event) => {
+    eventDate = event.target.value;
+  };
+
   const handleStartChange = (event) => {
-    startDate = event.target.value;
+    startTime = event.target.value;
   };
 
   const handleEndChange = (event) => {
-    endDate = event.target.value;
+    endTime = event.target.value;
   };
 
   const genNewEvent = () => {
-    if (!startDate || !endDate) {
+    if (!eventDate || !endTime || !startTime) {
       alert('Start and End Times must be specified to create a new event');
       handleClose();
       return;
     }
     // TODO: Ensure that end date is after start date, might mess up the Calendar library otherwise
+    const startDate = new Date(`${eventDate} ${startTime}:00`);
+    const endDate = new Date(`${eventDate} ${endTime}:00`);
     if (startDate < endDate) {
       handleNewCustomEvent(title, startDate, endDate);
     } else {
@@ -144,9 +151,20 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
             onChange={handleTitleChange}
           />
           <TextField
-            id="start_date"
-            label="Start time"
-            type="datetime-local"
+            id="event_date"
+            label="Event date"
+            type="date"
+            defaultValue={def}
+            className={classes.textField}
+            onChange={handleDateChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <TextField
+            id="start_time"
+            label="Start Time"
+            type="time"
             defaultValue={def}
             className={classes.textField}
             onChange={handleStartChange}
@@ -155,9 +173,9 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
             }}
           />
           <TextField
-            id="end_date"
-            label="End time"
-            type="datetime-local"
+            id="end_time"
+            label="End Time"
+            type="time"
             defaultValue={def}
             className={classes.textField}
             onChange={handleEndChange}

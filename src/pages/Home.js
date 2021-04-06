@@ -62,6 +62,9 @@ function Home({ Menu, schedule, events }) {
     let check = 0;
     if (start === 0) {
       let timeSet = schedule.ToIITH.LINGAMPALLY.map((x) => x);
+      if (date.getDay() === 0 || date.getDay() === 6) {
+        timeSet = schedule.ToIITH.LINGAMPALLYW.map((x) => x);
+      }
       for (let i = 0; i < timeSet.length; i += 1) {
         const index = timeSet[i].lastIndexOf(':');
         const hoursText = parseFloat(timeSet[i].substring(0, index))
@@ -98,8 +101,13 @@ function Home({ Menu, schedule, events }) {
           break;
         }
       }
+      if (check === 0) buses.push(timeSet[0]);
+      check = 0;
     } else {
       let timeSet = schedule.FromIITH.LINGAMPALLY.map((x) => x);
+      if (date.getDay() === 0 || date.getDay() === 6) {
+        timeSet = schedule.FromIITH.LINGAMPALLYW.map((x) => x);
+      }
       for (let i = 0; i < timeSet.length; i += 1) {
         const index = timeSet[i].lastIndexOf(':');
         const hoursText = parseFloat(timeSet[i].substring(0, index))
@@ -136,6 +144,8 @@ function Home({ Menu, schedule, events }) {
           break;
         }
       }
+      if (check === 0) buses.push(timeSet[0]);
+      check = 0;
     }
     setTimes(buses);
   }, [schedule, start]);
@@ -186,17 +196,15 @@ function Home({ Menu, schedule, events }) {
           && eventDate.getMonth() === endDate.getMonth()
           && eventDate.getFullYear() === endDate.getFullYear()
         ) {
-          newEvent.timestamp = `${eventDate.getHours().toString()
-          }:${
+          newEvent.timestamp = `${eventDate.getHours().toString()}:${
             eventDate.getMinutes().toString() === '0'
               ? '00'
               : eventDate.getMinutes().toString()
-          } - ${
-            endDate.getHours().toString()
-          }:${
+          } - ${endDate.getHours().toString()}:${
             endDate.getMinutes().toString() === '0'
               ? '00'
-              : endDate.getMinutes().toString()}`;
+              : endDate.getMinutes().toString()
+          }`;
         } else {
           newEvent.timestamp = '';
         }
