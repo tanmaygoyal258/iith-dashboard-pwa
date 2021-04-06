@@ -12,9 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SettingsIcon from '@material-ui/icons/Settings';
-import InfoIcon from '@material-ui/icons/Info';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -58,14 +56,6 @@ function NavbarDrawer({ updateTT }) {
     <div>
       <Divider />
       <List>
-        <ListItem button key="Profile">
-          <ListItemIcon>
-            <AccountCircleIcon />
-          </ListItemIcon>
-          <ListItemText primary="Profile" />
-        </ListItem>
-      </List>
-      <List>
         <ListItem
           button
           key="Sync with aims timetable"
@@ -75,15 +65,7 @@ function NavbarDrawer({ updateTT }) {
           <ListItemIcon>
             <SettingsIcon />
           </ListItemIcon>
-          <ListItemText primary="Sync with aims timetable" />
-        </ListItem>
-      </List>
-      <List>
-        <ListItem button key="Info">
-          <ListItemIcon>
-            <InfoIcon />
-          </ListItemIcon>
-          <ListItemText primary="Info" />
+          <ListItemText primary="Sync with AIMS Timetable" />
         </ListItem>
       </List>
       <Divider />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -53,18 +53,18 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
     setDefault(date);
   }, []);
 
-  const useWindowSize = () => {
-    const [size, setSize] = useState([0, 0]);
-    useLayoutEffect(() => {
-      function updateSize() {
-        setSize([window.innerWidth, window.innerHeight]);
-      }
-      window.addEventListener('resize', updateSize);
-      updateSize();
-      return () => window.removeEventListener('resize', updateSize);
-    }, []);
-    return size;
-  };
+  // const useWindowSize = () => {
+  //   const [size, setSize] = useState([0, 0]);
+  //   useLayoutEffect(() => {
+  //     function updateSize() {
+  //       setSize([window.innerWidth, window.innerHeight]);
+  //     }
+  //     window.addEventListener('resize', updateSize);
+  //     updateSize();
+  //     return () => window.removeEventListener('resize', updateSize);
+  //   }, []);
+  //   return size;
+  // };
 
   const classes = useStyles();
 
@@ -107,7 +107,7 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
 
   // Custom accessors needed since the eventList is stored in localStorage, where the
   // Date is stringified
-  const height = useWindowSize()[0];
+  // const height = useWindowSize()[0];
   return (
     <div>
       <FullCalendar
@@ -127,7 +127,7 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
         slotEventOverlap={false}
         nowIndicator
         events={eventList}
-        height={Math.floor(height * 0.7)}
+        height={500}
       />
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Add event

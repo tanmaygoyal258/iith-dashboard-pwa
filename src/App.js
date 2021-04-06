@@ -7,7 +7,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Mess from './pages/Mess';
-import Cab from './pages/Cab';
+// import Cab from './pages/Cab';
 import Timetable from './pages/TimeTable';
 import Bus from './pages/Bus';
 import BottomNav from './components/BottomNav';
@@ -173,9 +173,9 @@ function App() {
                 <Mess Menu={messData} />
               </Container>
             </Route>
-            <Route path="/cab">
+            {/* <Route path="/cab">
               <Cab />
-            </Route>
+            </Route> */}
             <Route path="/bus">
               <Container>
                 <Bus schedule={busData} />

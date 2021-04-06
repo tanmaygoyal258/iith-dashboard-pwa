@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import RestaurantIcon from '@material-ui/icons/Restaurant';
-import LocalTaxiIcon from '@material-ui/icons/LocalTaxi';
+// import LocalTaxiIcon from '@material-ui/icons/LocalTaxi';
 import DirectionsBusIcon from '@material-ui/icons/DirectionsBus';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import { Link } from 'react-router-dom';
@@ -42,13 +42,13 @@ function BottomNav() {
         value="timetable"
         icon={<CalendarTodayIcon />}
       />
-      <BottomNavigationAction
+      {/* <BottomNavigationAction
         component={Link}
         to="/cab"
         label=""
         value="cab"
         icon={<LocalTaxiIcon />}
-      />
+      /> */}
       <BottomNavigationAction
         component={Link}
         to="/bus"
