@@ -45,8 +45,7 @@ const muiTheme = createMuiTheme({
       dark: '#ba000d',
       contrastText: '#FFFFFF',
     },
-    background: {
-    },
+    background: {},
   },
 });
 
@@ -167,25 +166,32 @@ function App() {
       <ThemeProvider theme={muiTheme}>
         <CssBaseline />
         <NavbarDrawer updateTT={updateTT} />
-        <Container className="main-container">
+        <Container className="main-container" disableGutters>
           <Switch>
             <Route path="/mess">
-              <Mess Menu={messData} />
+              <Container>
+                <Mess Menu={messData} />
+              </Container>
             </Route>
             <Route path="/cab">
               <Cab />
             </Route>
             <Route path="/bus">
-              <Bus schedule={busData} />
+              <Container>
+                <Bus schedule={busData} />
+              </Container>
             </Route>
             <Route path="/timetable">
+              {/* No container here so that timetable component fills the width */}
               <Timetable
                 eventList={eventList}
                 handleNewCustomEvent={addCustomEvent}
               />
             </Route>
             <Route path="">
-              <Home Menu={messData} schedule={busData} events={eventList}/>
+              <Container>
+                <Home Menu={messData} schedule={busData} events={eventList} />
+              </Container>
             </Route>
           </Switch>
         </Container>

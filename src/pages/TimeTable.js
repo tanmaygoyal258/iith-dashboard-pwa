@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
+import FullCalendar from '@fullcalendar/react';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import { makeStyles } from '@material-ui/core/styles';
-import moment from 'moment';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const localizer = momentLocalizer(moment);
+import './TimeTable.css';
 
 function TimeTable({ eventList, handleNewCustomEvent }) {
   const [open, setOpen] = React.useState(false);
@@ -25,6 +25,7 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const useStyles = makeStyles((theme) => ({
     container: {
       display: 'flex',
@@ -50,6 +51,19 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
       .toString()}:${today.getMinutes().toString()}`;
     setDefault(date);
   }, []);
+
+  const useWindowSize = () => {
+    const [size, setSize] = useState([0, 0]);
+    useLayoutEffect(() => {
+      function updateSize() {
+        setSize([window.innerWidth, window.innerHeight]);
+      }
+      window.addEventListener('resize', updateSize);
+      updateSize();
+      return () => window.removeEventListener('resize', updateSize);
+    }, []);
+    return size;
+  };
 
   const classes = useStyles();
 
@@ -86,16 +100,27 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
 
   // Custom accessors needed since the eventList is stored in localStorage, where the
   // Date is stringified
+  const height = useWindowSize()[0];
   return (
     <div>
-      <Calendar
-        localizer={localizer}
+      <FullCalendar
+        plugins={[dayGridPlugin, timeGridPlugin]}
+        initialView="timeGridWeek"
+        headerToolbar={{
+          left: 'prev,today,next',
+          right: 'dayGridMonth,timeGridWeek',
+        }}
+        slotLabelFormat={{
+          hour: 'numeric',
+          hour12: false,
+        }}
+        expandRows={false}
+        scrollTime="09:00:00"
+        eventOverlap
+        slotEventOverlap={false}
+        nowIndicator
         events={eventList}
-        defaultDate={new Date()}
-        startAccessor={(event) => new Date(event.start)}
-        endAccessor={(event) => new Date(event.end)}
-        scrollToTime={moment().hour(9).toDate()}
-        style={{ height: 500 }}
+        height={Math.floor(height * 0.7)}
       />
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Add event

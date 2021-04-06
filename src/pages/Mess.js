@@ -17,7 +17,6 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import './Mess.css';
 
-
 const days = [
   'Sunday',
   'Monday',
@@ -154,15 +153,34 @@ function Mess({ Menu }) {
       <Card className="card-props">
         <CardContent>
           <Typography>
-            <Grid container spacing={0} className="button-props" alignItems="center">
+            <Grid
+              container
+              spacing={0}
+              className="button-props"
+              alignItems="center"
+            >
               <Grid item xs={6} alignItems="center">
-                <Box display="flex" justifyContent="flex-start" bgcolor="background.paper" alignItems="center">
+                <Box
+                  display="flex"
+                  justifyContent="flex-start"
+                  bgcolor="background.paper"
+                  alignItems="center"
+                >
                   Mess Menu
                 </Box>
               </Grid>
-              <Grid item xs={6} alignItems="center" justifyContent="flex-end" alignItems="center">
-                <Box display="flex" bgcolor="background.paper" justifyContent="flex-end" alignItems="center">
-                  <ButtonGroup disableElevation variant="contained" color="primary">
+              <Grid item xs={6} justifyContent="flex-end" alignItems="center">
+                <Box
+                  display="flex"
+                  bgcolor="background.paper"
+                  justifyContent="flex-end"
+                  alignItems="center"
+                >
+                  <ButtonGroup
+                    disableElevation
+                    variant="contained"
+                    color="primary"
+                  >
                     <Button onClick={() => toggleHall()}>{hall}</Button>
                   </ButtonGroup>
                 </Box>

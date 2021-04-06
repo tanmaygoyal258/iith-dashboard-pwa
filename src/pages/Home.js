@@ -169,19 +169,36 @@ function Home({ Menu, schedule, events }) {
 
   const getEvents = () => {
     const today = new Date();
-    let currentEvents = [];
-    for(let i = 0; i < events.length; i = i + 1){
-      let event = events[i];
-      let eventDate = new Date(event.start);
-      if(eventDate.getDate() === today.getDate() && eventDate.getMonth() === today.getMonth() && eventDate.getFullYear() === today.getFullYear()){
-        let newEvent = {};
+    const currentEvents = [];
+    for (let i = 0; i < events.length; i += 1) {
+      const event = events[i];
+      const eventDate = new Date(event.start);
+      if (
+        eventDate.getDate() === today.getDate()
+        && eventDate.getMonth() === today.getMonth()
+        && eventDate.getFullYear() === today.getFullYear()
+      ) {
+        const newEvent = {};
         newEvent.title = event.title;
-        let endDate = new Date(event.end);
-        if(eventDate.getDate() === endDate.getDate() && eventDate.getMonth() === endDate.getMonth() && eventDate.getFullYear() === endDate.getFullYear()){
-          newEvent.timestamp = eventDate.getHours().toString() + ":" + (eventDate.getMinutes().toString() === "0" ? "00" : eventDate.getMinutes().toString()) + " - " + endDate.getHours().toString() + ":" + (endDate.getMinutes().toString() === "0" ? "00" : endDate.getMinutes().toString());
-        }
-        else{
-          newEvent.timestamp = "";
+        const endDate = new Date(event.end);
+        if (
+          eventDate.getDate() === endDate.getDate()
+          && eventDate.getMonth() === endDate.getMonth()
+          && eventDate.getFullYear() === endDate.getFullYear()
+        ) {
+          newEvent.timestamp = `${eventDate.getHours().toString()
+          }:${
+            eventDate.getMinutes().toString() === '0'
+              ? '00'
+              : eventDate.getMinutes().toString()
+          } - ${
+            endDate.getHours().toString()
+          }:${
+            endDate.getMinutes().toString() === '0'
+              ? '00'
+              : endDate.getMinutes().toString()}`;
+        } else {
+          newEvent.timestamp = '';
         }
         currentEvents.push(newEvent);
       }
@@ -191,7 +208,7 @@ function Home({ Menu, schedule, events }) {
         <ul>
           {currentEvents.map((item) => (
             <li>
-              <Typography>{item.title + " " + item.timestamp}</Typography>
+              <Typography>{`${item.title} ${item.timestamp}`}</Typography>
             </li>
           ))}
         </ul>
@@ -215,9 +232,7 @@ function Home({ Menu, schedule, events }) {
       <Card className={classes.root}>
         <CardContent>
           <Typography>
-            Today&apos;s
-            {' '}
-            Agenda
+            Today&apos;s Agenda
             {getEvents()}
           </Typography>
         </CardContent>
@@ -235,15 +250,34 @@ function Home({ Menu, schedule, events }) {
       <Card className={classes.root}>
         <CardContent>
           <Typography>
-            <Grid container spacing={0} className={classes2.root} alignItems="center">
+            <Grid
+              container
+              spacing={0}
+              className={classes2.root}
+              alignItems="center"
+            >
               <Grid item xs={6} alignItems="center">
-                <Box display="flex" justifyContent="flex-start" bgcolor="background.paper" alignItems="center">
+                <Box
+                  display="flex"
+                  justifyContent="flex-start"
+                  bgcolor="background.paper"
+                  alignItems="center"
+                >
                   Bus schedule
                 </Box>
               </Grid>
               <Grid item xs={6} justifyContent="flex-end" alignitems="center">
-                <Box display="flex" bgcolor="background.paper" justifyContent="flex-end" alignItems="center">
-                  <Button color="primary" variant="contained" onClick={() => toggleStart()}>
+                <Box
+                  display="flex"
+                  bgcolor="background.paper"
+                  justifyContent="flex-end"
+                  alignItems="center"
+                >
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={() => toggleStart()}
+                  >
                     {start === 0 ? 'To IITH' : 'From IITH'}
                   </Button>
                 </Box>
@@ -285,13 +319,13 @@ function Home({ Menu, schedule, events }) {
 Home.propTypes = {
   Menu: PropTypes.objectOf(PropTypes.object),
   schedule: PropTypes.objectOf(PropTypes.object),
-  events: PropTypes.objectOf(PropTypes.object),
+  events: PropTypes.arrayOf(PropTypes.object),
 };
 
 Home.defaultProps = {
   Menu: {},
   schedule: {},
-  events: {},
+  events: [],
 };
 
 export default Home;

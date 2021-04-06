@@ -1,0 +1,12 @@
+.fc-event-time {
+  display: none;
+}
+
+.fc-event-title {
+  top: 0;
+  bottom: 0;
+  max-height: 100%;
+  overflow: hidden;
+  font-size: 85%;
+  font-weight: bolder;
+}
