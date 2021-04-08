@@ -261,6 +261,7 @@ function Home({ Menu, schedule, events }) {
             <Grid
               container
               spacing={0}
+              style={{ padding: '10px' }}
               className={classes2.root}
               alignItems="center"
             >

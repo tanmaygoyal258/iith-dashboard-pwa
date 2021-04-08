@@ -17,6 +17,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { Switch, FormControlLabel } from '@material-ui/core';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NavbarDrawer({ updateTT }) {
+function NavbarDrawer({ updateTT, toggleTheme }) {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   function handleDrawerToggle() {
@@ -84,6 +85,15 @@ function NavbarDrawer({ updateTT }) {
             <ExitToAppIcon />
           </ListItemIcon>
           <ListItemText primary="Logout" />
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <ListItem>
+          <FormControlLabel
+            control={<Switch onChange={toggleTheme} />}
+            label="Toggle Theme"
+          />
         </ListItem>
       </List>
     </div>
@@ -146,6 +156,7 @@ function NavbarDrawer({ updateTT }) {
 }
 NavbarDrawer.propTypes = {
   updateTT: PropTypes.func,
+  toggleTheme: PropTypes.func,
 };
-NavbarDrawer.defaultProps = { updateTT: [] };
+NavbarDrawer.defaultProps = { updateTT: () => {}, toggleTheme: () => {} };
 export default NavbarDrawer;

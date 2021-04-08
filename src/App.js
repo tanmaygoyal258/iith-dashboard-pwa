@@ -3,7 +3,7 @@ import firebase from 'firebase';
 import dotenv from 'dotenv';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Container, CssBaseline } from '@material-ui/core';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Mess from './pages/Mess';
@@ -14,6 +14,8 @@ import BottomNav from './components/BottomNav';
 import NavbarDrawer from './components/NavbarDrawer';
 
 import makeEventList from './makeEventList';
+
+import { lightTheme, darkTheme } from './Themes';
 
 import './App.css';
 
@@ -31,38 +33,6 @@ firebase.initializeApp({
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
-const muiTheme = createMuiTheme({
-  palette: {
-    primary: {
-      light: '#000000',
-      main: '#9c5cb4',
-      dark: '#002884',
-      contrastText: '#FFFFFF',
-    },
-    secondary: {
-      light: '#ff7961',
-      main: '#f44336',
-      dark: '#ba000d',
-      contrastText: '#FFFFFF',
-    },
-    background: {},
-    typography: {
-      fontFamily: [
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(','),
-    },
-  },
-});
-
 const login = () => {
   const provider = googleProvider;
   provider.addScope('profile');
@@ -74,6 +44,7 @@ function App() {
   const [user, loading, error] = useAuthState(firebase.auth()); // eslint-disable-line
   const [messData, setMessData] = useState({});
   const [busData, setBusData] = useState({});
+  const [theme, setTheme] = useState(darkTheme);
 
   const masterKey = 'masterkey';
   const aimsKey = 'aimskey';
@@ -142,6 +113,14 @@ function App() {
     }
   };
 
+  const toggleTheme = () => {
+    if (theme.palette.type === 'dark') {
+      setTheme({ ...lightTheme });
+    } else {
+      setTheme({ ...darkTheme });
+    }
+  };
+
   useEffect(() => {
     fetch(process.env.REACT_APP_MESS_API_ENDPOINT)
       .then((res) => res.json())
@@ -177,9 +156,9 @@ function App() {
 
   return (
     <Router>
-      <ThemeProvider theme={muiTheme}>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
-        <NavbarDrawer updateTT={updateTT} />
+        <NavbarDrawer updateTT={updateTT} toggleTheme={toggleTheme} />
         <Container className="main-container" disableGutters>
           <Switch>
             <Route path="/mess">
