@@ -4,7 +4,11 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
 import {
-  useTheme, Divider, List, ListItem, ListItemText,
+  useTheme,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
 } from '@material-ui/core';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -178,7 +182,7 @@ function Mess({ Menu }) {
                   bgcolor="background.paper"
                   alignItems="center"
                 >
-                  <h4>Mess Menu</h4>
+                  <h3>Mess Menu</h3>
                 </Box>
               </Grid>
               <Grid item xs={6} justifyContent="flex-end" alignItems="center">
@@ -204,7 +208,7 @@ function Mess({ Menu }) {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                <h5>Breakfast</h5>
+                <h4>Breakfast</h4>
               </AccordionSummary>
               <AccordionDetails>{getMeal('Breakfast')}</AccordionDetails>
             </Accordion>
@@ -214,7 +218,7 @@ function Mess({ Menu }) {
                 aria-controls="panel2a-content"
                 id="panel2a-header"
               >
-                <h5>Lunch</h5>
+                <h4>Lunch</h4>
               </AccordionSummary>
               <AccordionDetails>{getMeal('Lunch')}</AccordionDetails>
             </Accordion>
@@ -224,7 +228,7 @@ function Mess({ Menu }) {
                 aria-controls="panel2a-content"
                 id="panel2a-header"
               >
-                <h5>Snacks</h5>
+                <h4>Snacks</h4>
               </AccordionSummary>
               <AccordionDetails>{getMeal('Snacks')}</AccordionDetails>
             </Accordion>
@@ -234,7 +238,7 @@ function Mess({ Menu }) {
                 aria-controls="panel2a-content"
                 id="panel2a-header"
               >
-                <h5>Dinner</h5>
+                <h4>Dinner</h4>
               </AccordionSummary>
               <AccordionDetails>{getMeal('Dinner')}</AccordionDetails>
             </Accordion>

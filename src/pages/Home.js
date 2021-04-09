@@ -164,7 +164,7 @@ function Home({ Menu, schedule, events }) {
           ))}
         </ul>
         <div>
-          <h4>Extras</h4>
+          <h3>Extras</h3>
         </div>
         <ul>
           {extraItems.map((item) => (
@@ -239,16 +239,16 @@ function Home({ Menu, schedule, events }) {
     <div>
       <Card className={classes.root}>
         <CardContent>
-          <h4>Today&apos;s Agenda</h4>
+          <h3>Today&apos;s Agenda</h3>
           <Typography>{getEvents()}</Typography>
         </CardContent>
       </Card>
       <Card className={classes.root}>
         <CardContent>
-          <h4>
+          <h3>
             Today&apos;s
             {mealKey}
-          </h4>
+          </h3>
           <Typography>{getMeal(mealKey)}</Typography>
         </CardContent>
       </Card>
@@ -269,7 +269,7 @@ function Home({ Menu, schedule, events }) {
                   bgcolor="background.paper"
                   alignItems="center"
                 >
-                  <h4>Bus schedule</h4>
+                  <h3>Bus schedule</h3>
                 </Box>
               </Grid>
               <Grid item xs={6} justifyContent="flex-end" alignitems="center">
@@ -292,17 +292,17 @@ function Home({ Menu, schedule, events }) {
             <Grid container spacing={0} className={classes2.root}>
               <Grid item xs={4}>
                 <Paper className={classes2.paper}>
-                  <h5>Lingampally</h5>
+                  <h4>Lingampally</h4>
                 </Paper>
               </Grid>
               <Grid item xs={4}>
                 <Paper className={classes2.paper}>
-                  <h5>MainGate</h5>
+                  <h4>MainGate</h4>
                 </Paper>
               </Grid>
               <Grid item xs={4}>
                 <Paper className={classes2.paper}>
-                  <h5>Sangareddy</h5>
+                  <h4>Sangareddy</h4>
                 </Paper>
               </Grid>
               <Grid item xs={4}>
