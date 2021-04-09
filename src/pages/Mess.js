@@ -182,7 +182,7 @@ function Mess({ Menu }) {
                   bgcolor="background.paper"
                   alignItems="center"
                 >
-                  <h3>Mess Menu</h3>
+                  <Typography variant="h6">Mess Menu</Typography>
                 </Box>
               </Grid>
               <Grid item xs={6} justifyContent="flex-end" alignItems="center">
@@ -208,7 +208,7 @@ function Mess({ Menu }) {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                <h4>Breakfast</h4>
+                <Box fontWeight="fontWeightMedium">Breakfast</Box>
               </AccordionSummary>
               <AccordionDetails>{getMeal('Breakfast')}</AccordionDetails>
             </Accordion>
@@ -218,7 +218,7 @@ function Mess({ Menu }) {
                 aria-controls="panel2a-content"
                 id="panel2a-header"
               >
-                <h4>Lunch</h4>
+                <Box fontWeight="fontWeightMedium">Lunch</Box>
               </AccordionSummary>
               <AccordionDetails>{getMeal('Lunch')}</AccordionDetails>
             </Accordion>
@@ -228,7 +228,7 @@ function Mess({ Menu }) {
                 aria-controls="panel2a-content"
                 id="panel2a-header"
               >
-                <h4>Snacks</h4>
+                <Box fontWeight="fontWeightMedium">Snacks</Box>
               </AccordionSummary>
               <AccordionDetails>{getMeal('Snacks')}</AccordionDetails>
             </Accordion>
@@ -238,7 +238,7 @@ function Mess({ Menu }) {
                 aria-controls="panel2a-content"
                 id="panel2a-header"
               >
-                <h4>Dinner</h4>
+                <Box fontWeight="fontWeightMedium">Dinner</Box>
               </AccordionSummary>
               <AccordionDetails>{getMeal('Dinner')}</AccordionDetails>
             </Accordion>

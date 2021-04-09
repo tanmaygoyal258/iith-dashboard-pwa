@@ -164,7 +164,7 @@ function Home({ Menu, schedule, events }) {
           ))}
         </ul>
         <div>
-          <h3>Extras</h3>
+          <Box fontWeight="fontWeightMedium">Extras</Box>
         </div>
         <ul>
           {extraItems.map((item) => (
@@ -239,16 +239,16 @@ function Home({ Menu, schedule, events }) {
     <div>
       <Card className={classes.root}>
         <CardContent>
-          <h3>Today&apos;s Agenda</h3>
+          <Typography variant="h6">Today&apos;s Agenda</Typography>
           <Typography>{getEvents()}</Typography>
         </CardContent>
       </Card>
       <Card className={classes.root}>
         <CardContent>
-          <h3>
+          <Typography variant="h6">
             Today&apos;s
             {` ${mealKey}`}
-          </h3>
+          </Typography>
           <Typography>{getMeal(mealKey)}</Typography>
         </CardContent>
       </Card>
@@ -269,7 +269,7 @@ function Home({ Menu, schedule, events }) {
                   bgcolor="background.paper"
                   alignItems="center"
                 >
-                  <h3>Bus schedule</h3>
+                  <Typography variant="h6">Bus schedule</Typography>
                 </Box>
               </Grid>
               <Grid item xs={6} justifyContent="flex-end" alignitems="center">
@@ -292,17 +292,17 @@ function Home({ Menu, schedule, events }) {
             <Grid container spacing={0} className={classes2.root}>
               <Grid item xs={4}>
                 <Paper className={classes2.paper}>
-                  <h4>Lingampally</h4>
+                  <Box fontWeight="fontWeightMedium">Lingampally</Box>
                 </Paper>
               </Grid>
               <Grid item xs={4}>
                 <Paper className={classes2.paper}>
-                  <h4>MainGate</h4>
+                  <Box fontWeight="fontWeightMedium">MainGate</Box>
                 </Paper>
               </Grid>
               <Grid item xs={4}>
                 <Paper className={classes2.paper}>
-                  <h4>Sangareddy</h4>
+                  <Box fontWeight="fontWeightMedium">Sangareddy</Box>
                 </Paper>
               </Grid>
               <Grid item xs={4}>
