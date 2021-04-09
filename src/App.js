@@ -44,11 +44,11 @@ function App() {
   const [user, loading, error] = useAuthState(firebase.auth()); // eslint-disable-line
   const [messData, setMessData] = useState({});
   const [busData, setBusData] = useState({});
-  const [theme, setTheme] = useState(darkTheme);
 
   const masterKey = 'masterkey';
   const aimsKey = 'aimskey';
   const customKey = 'customkey';
+  const themeKey = 'themeKey';
 
   const [aimsTimetable, setAimsTimetable] = useState(
     JSON.parse(localStorage.getItem(aimsKey)) || null,
@@ -58,6 +58,10 @@ function App() {
   );
   const [eventList, setEventList] = useState(
     JSON.parse(localStorage.getItem(masterKey)) || [],
+  );
+
+  const [theme, setTheme] = useState(
+    localStorage.getItem(themeKey) === 'light' ? lightTheme : darkTheme,
   );
 
   const db = firebase.firestore();
@@ -115,8 +119,10 @@ function App() {
 
   const toggleTheme = () => {
     if (theme.palette.type === 'dark') {
+      localStorage.setItem(themeKey, 'light');
       setTheme({ ...lightTheme });
     } else {
+      localStorage.setItem(themeKey, 'dark');
       setTheme({ ...darkTheme });
     }
   };
