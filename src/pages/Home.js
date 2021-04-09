@@ -247,7 +247,7 @@ function Home({ Menu, schedule, events }) {
         <CardContent>
           <h3>
             Today&apos;s
-            {mealKey}
+            {` ${mealKey}`}
           </h3>
           <Typography>{getMeal(mealKey)}</Typography>
         </CardContent>
