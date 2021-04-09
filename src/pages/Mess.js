@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
-import { useTheme } from '@material-ui/core';
+import {
+  useTheme, Divider, List, ListItem, ListItemText,
+} from '@material-ui/core';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -15,6 +17,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
+
 import './Mess.css';
 
 const days = [
@@ -109,23 +112,32 @@ function Mess({ Menu }) {
     const extraItems = Menu[additionalKey][days[activeStep]][meal];
     return (
       <div>
-        <ul>
+        <List dense>
           {listItems.map((item) => (
-            <li>
-              <Typography>{item}</Typography>
-            </li>
+            <>
+              <ListItem key={item}>
+                <ListItemText>
+                  <Typography>{item}</Typography>
+                </ListItemText>
+              </ListItem>
+            </>
           ))}
-        </ul>
+        </List>
+        <Divider />
         <div>
           <Typography>Extras</Typography>
         </div>
-        <ul>
+        <List dense>
           {extraItems.map((item) => (
-            <li>
-              <Typography>{item}</Typography>
-            </li>
+            <>
+              <ListItem key={item}>
+                <ListItemText>
+                  <Typography>{item}</Typography>
+                </ListItemText>
+              </ListItem>
+            </>
           ))}
-        </ul>
+        </List>
       </div>
     );
   };
@@ -166,7 +178,7 @@ function Mess({ Menu }) {
                   bgcolor="background.paper"
                   alignItems="center"
                 >
-                  Mess Menu
+                  <h4>Mess Menu</h4>
                 </Box>
               </Grid>
               <Grid item xs={6} justifyContent="flex-end" alignItems="center">
@@ -192,7 +204,7 @@ function Mess({ Menu }) {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                <Typography>Breakfast</Typography>
+                <h5>Breakfast</h5>
               </AccordionSummary>
               <AccordionDetails>{getMeal('Breakfast')}</AccordionDetails>
             </Accordion>
@@ -202,7 +214,7 @@ function Mess({ Menu }) {
                 aria-controls="panel2a-content"
                 id="panel2a-header"
               >
-                <Typography>Lunch</Typography>
+                <h5>Lunch</h5>
               </AccordionSummary>
               <AccordionDetails>{getMeal('Lunch')}</AccordionDetails>
             </Accordion>
@@ -212,7 +224,7 @@ function Mess({ Menu }) {
                 aria-controls="panel2a-content"
                 id="panel2a-header"
               >
-                <Typography>Snacks</Typography>
+                <h5>Snacks</h5>
               </AccordionSummary>
               <AccordionDetails>{getMeal('Snacks')}</AccordionDetails>
             </Accordion>
@@ -222,7 +234,7 @@ function Mess({ Menu }) {
                 aria-controls="panel2a-content"
                 id="panel2a-header"
               >
-                <Typography>Dinner</Typography>
+                <h5>Dinner</h5>
               </AccordionSummary>
               <AccordionDetails>{getMeal('Dinner')}</AccordionDetails>
             </Accordion>

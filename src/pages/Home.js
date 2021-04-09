@@ -164,7 +164,7 @@ function Home({ Menu, schedule, events }) {
           ))}
         </ul>
         <div>
-          <Typography>Extras</Typography>
+          <h4>Extras</h4>
         </div>
         <ul>
           {extraItems.map((item) => (
@@ -239,20 +239,17 @@ function Home({ Menu, schedule, events }) {
     <div>
       <Card className={classes.root}>
         <CardContent>
-          <Typography>
-            Today&apos;s Agenda
-            {getEvents()}
-          </Typography>
+          <h4>Today&apos;s Agenda</h4>
+          <Typography>{getEvents()}</Typography>
         </CardContent>
       </Card>
       <Card className={classes.root}>
         <CardContent>
-          <Typography>
+          <h4>
             Today&apos;s
-            {' '}
             {mealKey}
-            {getMeal(mealKey)}
-          </Typography>
+          </h4>
+          <Typography>{getMeal(mealKey)}</Typography>
         </CardContent>
       </Card>
       <Card className={classes.root}>
@@ -272,7 +269,7 @@ function Home({ Menu, schedule, events }) {
                   bgcolor="background.paper"
                   alignItems="center"
                 >
-                  Bus schedule
+                  <h4>Bus schedule</h4>
                 </Box>
               </Grid>
               <Grid item xs={6} justifyContent="flex-end" alignitems="center">
@@ -294,13 +291,19 @@ function Home({ Menu, schedule, events }) {
             </Grid>
             <Grid container spacing={0} className={classes2.root}>
               <Grid item xs={4}>
-                <Paper className={classes2.paper}>Lingampally</Paper>
+                <Paper className={classes2.paper}>
+                  <h5>Lingampally</h5>
+                </Paper>
               </Grid>
               <Grid item xs={4}>
-                <Paper className={classes2.paper}>MainGate</Paper>
+                <Paper className={classes2.paper}>
+                  <h5>MainGate</h5>
+                </Paper>
               </Grid>
               <Grid item xs={4}>
-                <Paper className={classes2.paper}>Sangareddy</Paper>
+                <Paper className={classes2.paper}>
+                  <h5>Sangareddy</h5>
+                </Paper>
               </Grid>
               <Grid item xs={4}>
                 <Paper className={classes2.paper}>
