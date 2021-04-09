@@ -122,7 +122,7 @@ function Bus({ schedule }) {
         <Box>
           <h3>
             IITH to
-            {location[0] + location.substr(1).toLowerCase()}
+            {` ${location[0]}${location.substr(1).toLowerCase()}`}
           </h3>
           <List className="times-list">{makeTimeList('to')}</List>
         </Box>
