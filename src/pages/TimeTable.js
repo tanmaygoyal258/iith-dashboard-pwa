@@ -11,6 +11,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Box from '@material-ui/core/Box';
 
 import './TimeTable.css';
 
@@ -129,6 +130,14 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
       <Button variant="contained" color="primary" onClick={handleClickOpen}>
         Add event
       </Button>
+      <Box
+        fontWeight="fontWeightMedium"
+        visibility={
+          localStorage.getItem('aimskey') !== null ? 'hidden' : 'visible'
+        }
+      >
+        (AIMS timetable not synced)
+      </Box>
       <Dialog
         open={open}
         onClose={handleClose}
