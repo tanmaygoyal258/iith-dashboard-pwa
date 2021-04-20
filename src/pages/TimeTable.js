@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -17,6 +17,7 @@ import './TimeTable.css';
 function TimeTable({ eventList, handleNewCustomEvent }) {
   const [open, setOpen] = React.useState(false);
   const [def, setDefault] = React.useState(null);
+  const muiTheme = useTheme();
 
   let title = '';
   let eventDate = null;
@@ -40,6 +41,15 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
   }));
 
   useEffect(() => {
+    document
+      .querySelector('#calendar-div')
+      .style.setProperty('--primary-color', muiTheme.palette.primary.main);
+    document
+      .querySelector('#calendar-div')
+      .style.setProperty('--text-color', muiTheme.palette.primary.contrastText);
+  });
+
+  useEffect(() => {
     const today = new Date();
     const date = `${today.getFullYear().toString()}-${
       today.getMonth() + 1 < 10
@@ -52,19 +62,6 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
       .toString()}:${today.getMinutes().toString()}`;
     setDefault(date);
   }, []);
-
-  // const useWindowSize = () => {
-  //   const [size, setSize] = useState([0, 0]);
-  //   useLayoutEffect(() => {
-  //     function updateSize() {
-  //       setSize([window.innerWidth, window.innerHeight]);
-  //     }
-  //     window.addEventListener('resize', updateSize);
-  //     updateSize();
-  //     return () => window.removeEventListener('resize', updateSize);
-  //   }, []);
-  //   return size;
-  // };
 
   const classes = useStyles();
 
@@ -109,7 +106,7 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
   // Date is stringified
   // const height = useWindowSize()[0];
   return (
-    <div>
+    <div id="calendar-div">
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin]}
         initialView="timeGridWeek"
@@ -185,7 +182,11 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={genNewEvent} color="primary">
+          <Button
+            onClick={genNewEvent}
+            color="primary"
+            style={{ margin: '10px' }}
+          >
             Save
           </Button>
         </DialogActions>

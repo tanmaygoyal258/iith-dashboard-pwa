@@ -1,3 +1,8 @@
+#calendar-div {
+  --primary-color: purple;
+  --text-color: white;
+}
+
 .fc-event-time {
   display: none;
 }
@@ -9,4 +14,23 @@
   overflow: hidden;
   font-size: 85%;
   font-weight: bolder;
+}
+
+.fc-v-event .fc-event-main {
+  color: white;
+  height: 100%;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+.fc-header-toolbar {
+  margin-bottom: 1.5em;
+  margin-left: 1.5em;
+}
+
+.fc-button {
+  background-color: var(--primary-color) !important;
+}
+.fc-button-active {
+  opacity: 60%;
 }
