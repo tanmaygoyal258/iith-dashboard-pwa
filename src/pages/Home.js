@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles({
   root: {
@@ -48,7 +49,9 @@ const days = [
   'Saturday',
 ];
 
-function Home({ Menu, schedule, events }) {
+function Home({
+  Menu, schedule, events, loading, error,
+}) {
   const [times, setTimes] = useState(null);
   const [start, setStart] = useState(0);
   const date = new Date();
@@ -57,97 +60,99 @@ function Home({ Menu, schedule, events }) {
   const classes2 = useStyles2();
   const hall = 'LDH';
   useEffect(() => {
-    const hours = date.getHours() + date.getMinutes() / 60;
-    const buses = [];
-    let check = 0;
-    if (start === 0) {
-      let timeSet = schedule.ToIITH.LINGAMPALLY.map((x) => x);
-      if (date.getDay() === 0 || date.getDay() === 6) {
-        timeSet = schedule.ToIITH.LINGAMPALLYW.map((x) => x);
-      }
-      for (let i = 0; i < timeSet.length; i += 1) {
-        const index = timeSet[i].lastIndexOf(':');
-        const hoursText = parseFloat(timeSet[i].substring(0, index))
-          + parseFloat(timeSet[i].substring(index + 1, timeSet[i].length)) / 60;
-        if (hoursText > hours) {
-          check = 1;
-          buses.push(timeSet[i]);
-          break;
+    if (!error && !loading && schedule) {
+      const hours = date.getHours() + date.getMinutes() / 60;
+      const buses = [];
+      let check = 0;
+      if (start === 0) {
+        let timeSet = schedule.ToIITH.LINGAMPALLY.map((x) => x);
+        if (date.getDay() === 0 || date.getDay() === 6) {
+          timeSet = schedule.ToIITH.LINGAMPALLYW.map((x) => x);
         }
-      }
-      if (check === 0) buses.push(timeSet[0]);
-      check = 0;
-      timeSet = schedule.ToIITH.LAB.map((x) => x);
-      for (let i = 0; i < timeSet.length; i += 1) {
-        const index = timeSet[i].lastIndexOf(':');
-        const hoursText = parseFloat(timeSet[i].substring(0, index))
-          + parseFloat(timeSet[i].substring(index + 1, timeSet[i].length)) / 60;
-        if (hoursText > hours) {
-          check = 1;
-          buses.push(timeSet[i]);
-          break;
+        for (let i = 0; i < timeSet.length; i += 1) {
+          const index = timeSet[i].lastIndexOf(':');
+          const hoursText = parseFloat(timeSet[i].substring(0, index))
+            + parseFloat(timeSet[i].substring(index + 1, timeSet[i].length)) / 60;
+          if (hoursText > hours) {
+            check = 1;
+            buses.push(timeSet[i]);
+            break;
+          }
         }
-      }
-      if (check === 0) buses.push(timeSet[0]);
-      check = 0;
-      timeSet = schedule.ToIITH.SANGAREDDY.map((x) => x);
-      for (let i = 0; i < timeSet.length; i += 1) {
-        const index = timeSet[i].lastIndexOf(':');
-        const hoursText = parseFloat(timeSet[i].substring(0, index))
-          + parseFloat(timeSet[i].substring(index + 1, timeSet[i].length)) / 60;
-        if (hoursText > hours) {
-          check = 1;
-          buses.push(timeSet[i]);
-          break;
+        if (check === 0) buses.push(timeSet[0]);
+        check = 0;
+        timeSet = schedule.ToIITH.LAB.map((x) => x);
+        for (let i = 0; i < timeSet.length; i += 1) {
+          const index = timeSet[i].lastIndexOf(':');
+          const hoursText = parseFloat(timeSet[i].substring(0, index))
+            + parseFloat(timeSet[i].substring(index + 1, timeSet[i].length)) / 60;
+          if (hoursText > hours) {
+            check = 1;
+            buses.push(timeSet[i]);
+            break;
+          }
         }
-      }
-      if (check === 0) buses.push(timeSet[0]);
-      check = 0;
-    } else {
-      let timeSet = schedule.FromIITH.LINGAMPALLY.map((x) => x);
-      if (date.getDay() === 0 || date.getDay() === 6) {
-        timeSet = schedule.FromIITH.LINGAMPALLYW.map((x) => x);
-      }
-      for (let i = 0; i < timeSet.length; i += 1) {
-        const index = timeSet[i].lastIndexOf(':');
-        const hoursText = parseFloat(timeSet[i].substring(0, index))
-          + parseFloat(timeSet[i].substring(index + 1, timeSet[i].length)) / 60;
-        if (hoursText > hours) {
-          check = 1;
-          buses.push(timeSet[i]);
-          break;
+        if (check === 0) buses.push(timeSet[0]);
+        check = 0;
+        timeSet = schedule.ToIITH.SANGAREDDY.map((x) => x);
+        for (let i = 0; i < timeSet.length; i += 1) {
+          const index = timeSet[i].lastIndexOf(':');
+          const hoursText = parseFloat(timeSet[i].substring(0, index))
+            + parseFloat(timeSet[i].substring(index + 1, timeSet[i].length)) / 60;
+          if (hoursText > hours) {
+            check = 1;
+            buses.push(timeSet[i]);
+            break;
+          }
         }
-      }
-      if (check === 0) buses.push(timeSet[0]);
-      check = 0;
-      timeSet = schedule.FromIITH.LAB.map((x) => x);
-      for (let i = 0; i < timeSet.length; i += 1) {
-        const index = timeSet[i].lastIndexOf(':');
-        const hoursText = parseFloat(timeSet[i].substring(0, index))
-          + parseFloat(timeSet[i].substring(index + 1, timeSet[i].length)) / 60;
-        if (hoursText > hours) {
-          check = 1;
-          buses.push(timeSet[i]);
-          break;
+        if (check === 0) buses.push(timeSet[0]);
+        check = 0;
+      } else {
+        let timeSet = schedule.FromIITH.LINGAMPALLY.map((x) => x);
+        if (date.getDay() === 0 || date.getDay() === 6) {
+          timeSet = schedule.FromIITH.LINGAMPALLYW.map((x) => x);
         }
-      }
-      if (check === 0) buses.push(timeSet[0]);
-      check = 0;
-      timeSet = schedule.FromIITH.SANGAREDDY.map((x) => x);
-      for (let i = 0; i < timeSet.length; i += 1) {
-        const index = timeSet[i].lastIndexOf(':');
-        const hoursText = parseFloat(timeSet[i].substring(0, index))
-          + parseFloat(timeSet[i].substring(index + 1, timeSet[i].length)) / 60;
-        if (hoursText > hours) {
-          check = 1;
-          buses.push(timeSet[i]);
-          break;
+        for (let i = 0; i < timeSet.length; i += 1) {
+          const index = timeSet[i].lastIndexOf(':');
+          const hoursText = parseFloat(timeSet[i].substring(0, index))
+            + parseFloat(timeSet[i].substring(index + 1, timeSet[i].length)) / 60;
+          if (hoursText > hours) {
+            check = 1;
+            buses.push(timeSet[i]);
+            break;
+          }
         }
+        if (check === 0) buses.push(timeSet[0]);
+        check = 0;
+        timeSet = schedule.FromIITH.LAB.map((x) => x);
+        for (let i = 0; i < timeSet.length; i += 1) {
+          const index = timeSet[i].lastIndexOf(':');
+          const hoursText = parseFloat(timeSet[i].substring(0, index))
+            + parseFloat(timeSet[i].substring(index + 1, timeSet[i].length)) / 60;
+          if (hoursText > hours) {
+            check = 1;
+            buses.push(timeSet[i]);
+            break;
+          }
+        }
+        if (check === 0) buses.push(timeSet[0]);
+        check = 0;
+        timeSet = schedule.FromIITH.SANGAREDDY.map((x) => x);
+        for (let i = 0; i < timeSet.length; i += 1) {
+          const index = timeSet[i].lastIndexOf(':');
+          const hoursText = parseFloat(timeSet[i].substring(0, index))
+            + parseFloat(timeSet[i].substring(index + 1, timeSet[i].length)) / 60;
+          if (hoursText > hours) {
+            check = 1;
+            buses.push(timeSet[i]);
+            break;
+          }
+        }
+        if (check === 0) buses.push(timeSet[0]);
+        check = 0;
       }
-      if (check === 0) buses.push(timeSet[0]);
-      check = 0;
+      setTimes(buses);
     }
-    setTimes(buses);
   }, [schedule, start]);
 
   const getMeal = (meal) => {
@@ -235,6 +240,40 @@ function Home({ Menu, schedule, events }) {
     return 'Breakfast';
   };
   const mealKey = getMealKey();
+
+  if (error) {
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%,-50%)',
+        }}
+      >
+        <h2>Error. Please try again later</h2>
+        <Button color="primary" onClick={window.location.reload}>
+          Reload
+        </Button>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%,-50%)',
+        }}
+      >
+        <CircularProgress />
+      </div>
+    );
+  }
+
   return (
     <div>
       <Card className={classes.root}>
@@ -332,12 +371,16 @@ Home.propTypes = {
   Menu: PropTypes.objectOf(PropTypes.object),
   schedule: PropTypes.objectOf(PropTypes.object),
   events: PropTypes.arrayOf(PropTypes.object),
+  loading: PropTypes.bool,
+  error: PropTypes.bool,
 };
 
 Home.defaultProps = {
   Menu: {},
   schedule: {},
   events: [],
+  loading: true,
+  error: false,
 };
 
 export default Home;

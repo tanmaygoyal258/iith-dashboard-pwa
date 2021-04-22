@@ -21,6 +21,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import './Mess.css';
 
@@ -100,7 +101,7 @@ StepIcon.defaultProps = {
   textColor: 'black',
 };
 
-function Mess({ Menu }) {
+function Mess({ Menu, loading, error }) {
   const date = new Date();
   const [activeStep, setActiveStep] = useState(date.getDay());
   const theme = useTheme();
@@ -145,6 +146,39 @@ function Mess({ Menu }) {
       </div>
     );
   };
+
+  if (error) {
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%,-50%)',
+        }}
+      >
+        <h2>Error. Please try again later</h2>
+        <Button color="primary" onClick={window.location.reload}>
+          Reload
+        </Button>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%,-50%)',
+        }}
+      >
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -251,10 +285,14 @@ function Mess({ Menu }) {
 
 Mess.propTypes = {
   Menu: PropTypes.objectOf(PropTypes.object),
+  loading: PropTypes.bool,
+  error: PropTypes.bool,
 };
 
 Mess.defaultProps = {
   Menu: {},
+  loading: true,
+  error: false,
 };
 
 export default Mess;

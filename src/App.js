@@ -43,7 +43,11 @@ const login = () => {
 function App() {
   const [user, loading, error] = useAuthState(firebase.auth()); // eslint-disable-line
   const [messData, setMessData] = useState({});
+  const [messDataLoading, setMessDataLoading] = useState(true);
+  const [messDataError, setMessDataError] = useState(false);
   const [busData, setBusData] = useState({});
+  const [busDataLoading, setBusDataLoading] = useState(true);
+  const [busDataError, setBusDataError] = useState(false);
 
   const masterKey = 'masterkey';
   const aimsKey = 'aimskey';
@@ -59,7 +63,6 @@ function App() {
   const [eventList, setEventList] = useState(
     JSON.parse(localStorage.getItem(masterKey)) || [],
   );
-
   const [theme, setTheme] = useState(
     localStorage.getItem(themeKey) === 'light' ? lightTheme : darkTheme,
   );
@@ -132,24 +135,24 @@ function App() {
       .then((res) => res.json())
       .then((res) => {
         setMessData(res);
+        setMessDataLoading(false);
       })
-      .catch((err) => {
-        console.log(err);
-        setMessData(null);
+      .catch(() => {
+        setMessDataError(true);
       });
-  }, [setMessData]);
+  }, [setMessData, setMessDataLoading, setMessDataError]);
 
   useEffect(() => {
     fetch(process.env.REACT_APP_BUS_API_ENDPOINT)
       .then((res) => res.json())
       .then((res) => {
         setBusData(res);
+        setBusDataLoading(false);
       })
-      .catch((err) => {
-        console.log(err);
-        setBusData(null);
+      .catch(() => {
+        setBusDataError(true);
       });
-  }, [setBusData]);
+  }, [setBusData, setBusDataLoading, setBusDataError]);
 
   if (!user) {
     return (
@@ -169,7 +172,11 @@ function App() {
           <Switch>
             <Route path="/mess">
               <Container>
-                <Mess Menu={messData} />
+                <Mess
+                  Menu={messData}
+                  loading={messDataLoading}
+                  error={messDataError}
+                />
               </Container>
             </Route>
             {/* <Route path="/cab">
@@ -177,7 +184,11 @@ function App() {
             </Route> */}
             <Route path="/bus">
               <Container>
-                <Bus schedule={busData} />
+                <Bus
+                  schedule={busData}
+                  loading={busDataLoading}
+                  error={busDataError}
+                />
               </Container>
             </Route>
             <Route path="/timetable">
@@ -189,7 +200,13 @@ function App() {
             </Route>
             <Route path="">
               <Container>
-                <Home Menu={messData} schedule={busData} events={eventList} />
+                <Home
+                  Menu={messData}
+                  schedule={busData}
+                  events={eventList}
+                  loading={busDataLoading || messDataLoading}
+                  error={messDataError || busDataError}
+                />
               </Container>
             </Route>
           </Switch>

@@ -7,10 +7,11 @@ import Box from '@material-ui/core/Box';
 import {
   Divider, List, ListItem, ListItemText,
 } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import './Bus.css';
 
-function Bus({ schedule }) {
+function Bus({ schedule, loading, error }) {
   const [location, setLocation] = useState('LAB');
   const [isWeekend, setIsWeekend] = useState(false);
   const [open, setOpen] = useState(false);
@@ -80,12 +81,37 @@ function Bus({ schedule }) {
     );
   };
 
-  if (schedule === null || schedule === undefined) {
-    return <h1>Error</h1>;
+  if (error) {
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%,-50%)',
+        }}
+      >
+        <h2>Error. Please try again later</h2>
+        <Button color="primary" onClick={window.location.reload}>
+          Reload
+        </Button>
+      </div>
+    );
   }
 
-  if (Object.keys(schedule).length === 0) {
-    return <h1>Loading...</h1>;
+  if (loading) {
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%,-50%)',
+        }}
+      >
+        <CircularProgress />
+      </div>
+    );
   }
 
   return (
@@ -142,8 +168,12 @@ export default Bus;
 
 Bus.propTypes = {
   schedule: PropTypes.objectOf(PropTypes.object),
+  loading: PropTypes.bool,
+  error: PropTypes.bool,
 };
 
 Bus.defaultProps = {
   schedule: {},
+  loading: true,
+  error: false,
 };
