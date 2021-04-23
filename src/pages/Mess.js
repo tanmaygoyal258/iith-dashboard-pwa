@@ -110,7 +110,14 @@ function Mess({ Menu, loading, error }) {
     if (hall === 'LDH') setHall('UDH');
     else setHall('LDH');
   };
-
+  const getMealKey = () => {
+    const hours = date.getHours() + date.getMinutes() / 60;
+    if (hours >= 10 && hours <= 15) return 'Lunch';
+    if (hours >= 15 && hours <= 18.5) return 'Snacks';
+    if (hours >= 18.5 && hours <= 22.5) return 'Dinner';
+    return 'Breakfast';
+  };
+  const mealKey = getMealKey();
   const getMeal = (meal) => {
     const listItems = Menu[hall][days[activeStep]][meal];
     const additionalKey = `${hall} Additional`;
@@ -236,7 +243,7 @@ function Mess({ Menu, loading, error }) {
                 </Box>
               </Grid>
             </Grid>
-            <Accordion>
+            <Accordion defaultExpanded={mealKey === 'Breakfast'}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
@@ -246,7 +253,7 @@ function Mess({ Menu, loading, error }) {
               </AccordionSummary>
               <AccordionDetails>{getMeal('Breakfast')}</AccordionDetails>
             </Accordion>
-            <Accordion>
+            <Accordion defaultExpanded={mealKey === 'Lunch'}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel2a-content"
@@ -256,7 +263,7 @@ function Mess({ Menu, loading, error }) {
               </AccordionSummary>
               <AccordionDetails>{getMeal('Lunch')}</AccordionDetails>
             </Accordion>
-            <Accordion>
+            <Accordion defaultExpanded={mealKey === 'Snacks'}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel2a-content"
@@ -266,7 +273,7 @@ function Mess({ Menu, loading, error }) {
               </AccordionSummary>
               <AccordionDetails>{getMeal('Snacks')}</AccordionDetails>
             </Accordion>
-            <Accordion>
+            <Accordion defaultExpanded={mealKey === 'Dinner'}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel2a-content"

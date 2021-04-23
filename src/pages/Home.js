@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { Divider } from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: {
@@ -160,25 +161,22 @@ function Home({
     const additionalKey = `${hall} Additional`;
     const extraItems = Menu[additionalKey][days[activeStep]][meal];
     return (
-      <div>
-        <ul>
-          {listItems.map((item) => (
-            <li>
-              <Typography>{item}</Typography>
-            </li>
-          ))}
-        </ul>
+      <Box>
         <div>
-          <Box fontWeight="fontWeightMedium">Extras</Box>
-        </div>
-        <ul>
-          {extraItems.map((item) => (
-            <li>
+          <Box ml={0.5}>{listItems.join(', ')}</Box>
+          <Divider />
+          <div>
+            <Box fontWeight="fontWeightMedium" mt={0.5}>
+              Extras
+            </Box>
+          </div>
+          <Box ml={0.5}>
+            {extraItems.map((item) => (
               <Typography>{item}</Typography>
-            </li>
-          ))}
-        </ul>
-      </div>
+            ))}
+          </Box>
+        </div>
+      </Box>
     );
   };
 
