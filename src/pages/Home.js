@@ -14,6 +14,7 @@ import { Divider } from '@material-ui/core';
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
+    marginBottom: '3px',
   },
   bullet: {
     display: 'inline-block',
@@ -152,9 +153,10 @@ function Home({
         if (check === 0) buses.push(timeSet[0]);
         check = 0;
       }
+      console.log('Done');
       setTimes(buses);
     }
-  }, [schedule, start]);
+  }, [schedule, start, setTimes, error, loading]);
 
   const getMeal = (meal) => {
     const listItems = Menu[hall][days[activeStep]][meal];
