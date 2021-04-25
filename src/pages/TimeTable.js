@@ -103,9 +103,6 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
     handleClose();
   };
 
-  // Custom accessors needed since the eventList is stored in localStorage, where the
-  // Date is stringified
-  // const height = useWindowSize()[0];
   return (
     <div id="calendar-div">
       <FullCalendar
@@ -113,7 +110,7 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
         initialView="timeGridWeek"
         headerToolbar={{
           left: 'prev,today,next',
-          right: 'dayGridMonth,timeGridWeek',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay',
         }}
         slotLabelFormat={{
           hour: 'numeric',
@@ -127,7 +124,12 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
         events={eventList}
         height={500}
       />
-      <Button variant="contained" color="primary" onClick={handleClickOpen}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleClickOpen}
+        style={{ margin: '5px' }}
+      >
         Add event
       </Button>
       <Box

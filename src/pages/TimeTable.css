@@ -23,6 +23,11 @@
   color: var(--text-color);
 }
 
+.fc-button-group {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
 .fc-header-toolbar {
   margin-bottom: 1.5em;
   margin-left: 1.5em;
@@ -31,6 +36,7 @@
 .fc-button {
   background-color: var(--primary-color) !important;
 }
+
 .fc-button-active {
   opacity: 60%;
 }
