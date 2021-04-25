@@ -37,7 +37,15 @@ const login = () => {
   const provider = googleProvider;
   provider.addScope('profile');
   provider.addScope('email');
-  firebase.auth().signInWithPopup(provider);
+  firebase
+    .auth()
+    .signInWithRedirect(provider)
+    .then(() => {
+      console.log('Success');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 function App() {
