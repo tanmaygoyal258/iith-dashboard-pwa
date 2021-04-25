@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -11,13 +11,18 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Box from '@material-ui/core/Box';
+import SnackBar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 import './TimeTable.css';
 
 function TimeTable({ eventList, handleNewCustomEvent }) {
-  const [open, setOpen] = React.useState(false);
-  const [def, setDefault] = React.useState(null);
+  const [open, setOpen] = useState(false);
+  const [def, setDefault] = useState(null);
+  const [showAimsError, setShowAimsError] = useState(
+    localStorage.getItem('aimskey') === null,
+  );
+
   const muiTheme = useTheme();
 
   let title = '';
@@ -132,14 +137,24 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
       >
         Add event
       </Button>
-      <Box
-        fontWeight="fontWeightMedium"
-        visibility={
-          localStorage.getItem('aimskey') !== null ? 'hidden' : 'visible'
-        }
+      <SnackBar
+        open={showAimsError}
+        autoHideDuration={3000}
+        onClose={(event, reason) => {
+          if (reason === 'clickaway') {
+            return;
+          }
+
+          setShowAimsError(false);
+        }}
+        style={{
+          marginBottom: '10%',
+        }}
       >
-        (AIMS timetable not synced)
-      </Box>
+        <MuiAlert elevation={6} variant="filled" severity="warning">
+          AIMS Timetable not synced
+        </MuiAlert>
+      </SnackBar>
       <Dialog
         open={open}
         onClose={handleClose}
