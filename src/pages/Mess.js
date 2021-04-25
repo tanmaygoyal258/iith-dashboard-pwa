@@ -105,10 +105,17 @@ function Mess({ Menu, loading, error }) {
   const date = new Date();
   const [activeStep, setActiveStep] = useState(date.getDay());
   const theme = useTheme();
-  const [hall, setHall] = useState('LDH');
+  const [hall, setHall] = useState(
+    localStorage.getItem('messPreference') || 'LDH',
+  );
   const toggleHall = () => {
-    if (hall === 'LDH') setHall('UDH');
-    else setHall('LDH');
+    if (hall === 'LDH') {
+      localStorage.setItem('messPreference', 'UDH');
+      setHall('UDH');
+    } else {
+      localStorage.setItem('messPreference', 'LDH');
+      setHall('LDH');
+    }
   };
   const getMealKey = () => {
     const hours = date.getHours() + date.getMinutes() / 60;
