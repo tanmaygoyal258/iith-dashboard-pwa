@@ -194,7 +194,7 @@ function App() {
   }
 
   return (
-    <Router basename={process.env.REACT_APP_BASENAME}>
+    <Router basename="/">
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <NavbarDrawer updateTT={updateTT} toggleTheme={toggleTheme} />

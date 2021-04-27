@@ -78,5 +78,5 @@
   "devDependencies": {
     "eslint-config-airbnb": "^18.2.0"
   },
-  "homepage": "https://peppermenta.github.io/iith-dashboard-pwa"
+  "homepage": "."
 }
