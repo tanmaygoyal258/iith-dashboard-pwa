@@ -5,6 +5,7 @@ import 'firebase/firestore';
 import dotenv from 'dotenv';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Container, CssBaseline } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
@@ -51,7 +52,7 @@ const login = () => {
 };
 
 function App() {
-  const [user, loading, error] = useAuthState(firebase.auth()); // eslint-disable-line
+  const [user, userLoading, userError] = useAuthState(firebase.auth()); // eslint-disable-line
   const [messData, setMessData] = useState({});
   const [messDataLoading, setMessDataLoading] = useState(true);
   const [messDataError, setMessDataError] = useState(false);
@@ -101,7 +102,7 @@ function App() {
   };
 
   const updateTT = () => {
-    if (user && !loading && !error) {
+    if (user && !userLoading && !userError) {
       const docRef = db.collection('users').doc(user.uid);
       docRef
         .get()
@@ -163,6 +164,25 @@ function App() {
         setBusDataError(true);
       });
   }, [setBusData, setBusDataLoading, setBusDataError]);
+
+  if (userError) {
+    return <h1>An error has ocurred. Please try again later</h1>;
+  }
+
+  if (userLoading) {
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%,-50%)',
+        }}
+      >
+        <CircularProgress />
+      </div>
+    );
+  }
 
   if (!user) {
     return (
