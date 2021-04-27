@@ -156,7 +156,7 @@ function Home({
       console.log('Done');
       setTimes(buses);
     }
-  }, [schedule, start, setTimes, error, loading]);
+  }, [schedule, start, setTimes, error, loading, date]);
 
   const getMeal = (meal) => {
     const listItems = Menu[hall][days[activeStep]][meal];
