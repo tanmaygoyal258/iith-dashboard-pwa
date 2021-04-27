@@ -8,7 +8,7 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import { Link } from 'react-router-dom';
 
 function BottomNav() {
-  const [currentTab, setCurrentTab] = useState('home');
+  const [currentTab, setCurrentTab] = useState('');
   const handleTabChange = (_, newTab) => {
     setCurrentTab(newTab);
   };
