@@ -56,13 +56,13 @@ function Home({
 }) {
   const [times, setTimes] = useState(null);
   const [start, setStart] = useState(0);
-  const date = new Date();
-  const activeStep = date.getDay();
+  const activeStep = new Date().getDay();
   const classes = useStyles();
   const classes2 = useStyles2();
   const hall = 'LDH';
   useEffect(() => {
     if (!error && !loading && schedule) {
+      const date = new Date();
       const hours = date.getHours() + date.getMinutes() / 60;
       const buses = [];
       let check = 0;
@@ -233,6 +233,7 @@ function Home({
     setStart(newStart);
   };
   const getMealKey = () => {
+    const date = new Date();
     const hours = date.getHours() + date.getMinutes() / 60;
     if (hours >= 10 && hours <= 15) return 'Lunch';
     if (hours >= 15 && hours <= 18.5) return 'Snacks';

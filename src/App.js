@@ -194,7 +194,7 @@ function App() {
   }
   if (window.location.pathname === '/iith-dashboard-pwa') window.location.href = '/';
   return (
-    <Router basename={process.env.REACT_APP_BASENAME}>
+    <Router basename="/">
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <NavbarDrawer updateTT={updateTT} toggleTheme={toggleTheme} />
