@@ -276,13 +276,23 @@ function Home({
 
   return (
     <div>
-      <Card className={classes.root}>
+      <Card
+        className={classes.root}
+        onClick={() => {
+          if (window.location.pathname !== '/timetable') window.location.assign(`${window.location.href}timetable`);
+        }}
+      >
         <CardContent>
           <Typography variant="h6">Today&apos;s Agenda</Typography>
           <Typography>{getEvents()}</Typography>
         </CardContent>
       </Card>
-      <Card className={classes.root}>
+      <Card
+        className={classes.root}
+        onClick={() => {
+          if (window.location.pathname !== '/mess') window.location.assign(`${window.location.href}mess`);
+        }}
+      >
         <CardContent>
           <Typography variant="h6">
             Today&apos;s
@@ -291,7 +301,12 @@ function Home({
           <Typography>{getMeal(mealKey)}</Typography>
         </CardContent>
       </Card>
-      <Card className={classes.root}>
+      <Card
+        className={classes.root}
+        onClick={() => {
+          if (window.location.pathname !== '/bus') window.location.assign(`${window.location.href}bus`);
+        }}
+      >
         <CardContent>
           <Typography>
             <Grid
