@@ -15,13 +15,14 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
 import './Mess.css';
 
@@ -105,17 +106,20 @@ function Mess({ Menu, loading, error }) {
   const date = new Date();
   const [activeStep, setActiveStep] = useState(date.getDay());
   const theme = useTheme();
+  const [open, setOpen] = useState(false);
   const [hall, setHall] = useState(
     localStorage.getItem('messPreference') || 'LDH',
   );
-  const toggleHall = () => {
-    if (hall === 'LDH') {
-      localStorage.setItem('messPreference', 'UDH');
-      setHall('UDH');
-    } else {
-      localStorage.setItem('messPreference', 'LDH');
-      setHall('LDH');
-    }
+  const handleChange = (event) => {
+    localStorage.setItem('messPreference', event.target.value);
+    setHall(event.target.value);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
   };
   const getMealKey = () => {
     const hours = date.getHours() + date.getMinutes() / 60;
@@ -240,13 +244,18 @@ function Mess({ Menu, loading, error }) {
                   justifyContent="flex-end"
                   alignItems="center"
                 >
-                  <ButtonGroup
-                    disableElevation
-                    variant="contained"
-                    color="primary"
+                  <Select
+                    labelId="demo-controlled-open-select-label"
+                    id="demo-controlled-open-select"
+                    open={open}
+                    onClose={handleClose}
+                    onOpen={handleOpen}
+                    value={hall}
+                    onChange={handleChange}
                   >
-                    <Button onClick={() => toggleHall()}>{hall}</Button>
-                  </ButtonGroup>
+                    <MenuItem value="LDH">LDH</MenuItem>
+                    <MenuItem value="UDH">UDH</MenuItem>
+                  </Select>
                 </Box>
               </Grid>
             </Grid>

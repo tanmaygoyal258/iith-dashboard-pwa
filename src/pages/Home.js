@@ -10,6 +10,8 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Divider } from '@material-ui/core';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles({
   root: {
@@ -56,6 +58,7 @@ function Home({
 }) {
   const [times, setTimes] = useState(null);
   const [start, setStart] = useState(0);
+  const [open, setOpen] = useState(false);
   const activeStep = new Date().getDay();
   const classes = useStyles();
   const classes2 = useStyles2();
@@ -228,9 +231,16 @@ function Home({
       </div>
     );
   };
-  const toggleStart = () => {
-    const newStart = 1 - start;
-    setStart(newStart);
+  const toggleStart = (event) => {
+    if (event.target.value === '0') setStart(0);
+    else setStart(1);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
   };
   const getMealKey = () => {
     const date = new Date();
@@ -302,12 +312,7 @@ function Home({
           <Typography>{getMeal(mealKey)}</Typography>
         </CardContent>
       </Card>
-      <Card
-        className={classes.root}
-        onClick={() => {
-          if (window.location.pathname !== '/bus') window.location.assign(`${window.location.href}bus`);
-        }}
-      >
+      <Card className={classes.root}>
         <CardContent>
           <Typography>
             <Grid
@@ -323,6 +328,9 @@ function Home({
                   justifyContent="flex-start"
                   bgcolor="background.paper"
                   alignItems="center"
+                  onClick={() => {
+                    if (window.location.pathname !== '/bus') window.location.assign(`${window.location.href}bus`);
+                  }}
                 >
                   <Typography variant="h6">Bus schedule</Typography>
                 </Box>
@@ -334,17 +342,29 @@ function Home({
                   justifyContent="flex-end"
                   alignItems="center"
                 >
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    onClick={() => toggleStart()}
+                  <Select
+                    labelId="demo-controlled-open-select-label"
+                    id="demo-controlled-open-select"
+                    open={open}
+                    onClose={handleClose}
+                    onOpen={handleOpen}
+                    value={start}
+                    onChange={toggleStart}
                   >
-                    {start === 0 ? 'To IITH' : 'From IITH'}
-                  </Button>
+                    <MenuItem value="0">FROM IITH</MenuItem>
+                    <MenuItem value="1">TO IITH</MenuItem>
+                  </Select>
                 </Box>
               </Grid>
             </Grid>
-            <Grid container spacing={0} className={classes2.root}>
+            <Grid
+              container
+              spacing={0}
+              className={classes2.root}
+              onClick={() => {
+                if (window.location.pathname !== '/bus') window.location.assign(`${window.location.href}bus`);
+              }}
+            >
               <Grid item xs={4}>
                 <Paper className={classes2.paper}>
                   <Box fontWeight="fontWeightMedium">Lingampally</Box>

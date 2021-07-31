@@ -13,6 +13,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import SnackBar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import Box from '@material-ui/core/Box';
 
 import './TimeTable.css';
 
@@ -129,14 +130,16 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
         events={eventList}
         height={500}
       />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleClickOpen}
-        style={{ margin: '5px' }}
-      >
-        Add event
-      </Button>
+      <Box display="flex" justifyContent="center" alignItems="center">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleClickOpen}
+          style={{ margin: '5px' }}
+        >
+          Add event
+        </Button>
+      </Box>
       <SnackBar
         open={showAimsError}
         autoHideDuration={3000}

@@ -19,6 +19,7 @@ function BottomNav() {
     setCurrentTab(currentPage.substr(1));
   }, [setCurrentTab]);
   useEffect(() => {
+    setIsMobile(window.innerWidth <= 500);
     window.addEventListener('resize', () => {
       setIsMobile(window.innerWidth <= 500);
     });

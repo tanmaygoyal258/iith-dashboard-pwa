@@ -135,7 +135,6 @@ function Bus({ schedule, loading, error }) {
         >
           <MenuItem value="LINGAMPALLY">Lingampally</MenuItem>
           <MenuItem value="SANGAREDDY">Sangareddy</MenuItem>
-          <MenuItem value="ODF">ODF</MenuItem>
           <MenuItem value="LAB">Maingate</MenuItem>
         </Select>
       </Box>
