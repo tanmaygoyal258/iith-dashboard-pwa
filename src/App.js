@@ -15,6 +15,7 @@ import Timetable from './pages/TimeTable';
 import Bus from './pages/Bus';
 import BottomNav from './components/BottomNav';
 import NavbarDrawer from './components/NavbarDrawer';
+import Login from './pages/Login';
 
 import makeEventList from './makeEventList';
 
@@ -33,23 +34,6 @@ firebase.initializeApp({
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 });
-
-const googleProvider = new firebase.auth.GoogleAuthProvider();
-
-const login = () => {
-  const provider = googleProvider;
-  provider.addScope('profile');
-  provider.addScope('email');
-  firebase
-    .auth()
-    .signInWithRedirect(provider)
-    .then(() => {
-      console.log('Success');
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
 
 function App() {
   const [user, userLoading, userError] = useAuthState(firebase.auth()); // eslint-disable-line
@@ -185,12 +169,7 @@ function App() {
   }
 
   if (!user) {
-    return (
-      <button type="submit" onClick={login}>
-        Sign in with google
-        {' '}
-      </button>
-    );
+    return <Login />;
   }
   if (window.location.pathname === '/iith-dashboard-pwa') window.location.href = '/';
   return (
