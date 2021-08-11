@@ -3,13 +3,7 @@ import PropTypes from 'prop-types';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
-import {
-  useTheme,
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
-} from '@material-ui/core';
+import { useTheme, Divider } from '@material-ui/core';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -135,32 +129,20 @@ function Mess({ Menu, loading, error }) {
     const extraItems = Menu[additionalKey][days[activeStep]][meal];
     return (
       <div>
-        <List dense>
-          {listItems.map((item) => (
-            <>
-              <ListItem key={item}>
-                <ListItemText>
-                  <Typography>{item}</Typography>
-                </ListItemText>
-              </ListItem>
-            </>
-          ))}
-        </List>
+        {listItems.map((item) => (
+          <div>
+            {item}
+          </div>
+        ))}
         <Divider />
         <div>
           <Typography>Extras</Typography>
         </div>
-        <List dense>
-          {extraItems.map((item) => (
-            <>
-              <ListItem key={item}>
-                <ListItemText>
-                  <Typography>{item}</Typography>
-                </ListItemText>
-              </ListItem>
-            </>
-          ))}
-        </List>
+        {extraItems.map((item) => (
+          <div>
+            {item}
+          </div>
+        ))}
       </div>
     );
   };
