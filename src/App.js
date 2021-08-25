@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
 import dotenv from 'dotenv';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Container, CssBaseline } from '@material-ui/core';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { ThemeProvider } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Mess from './pages/Mess';
-import Cab from './pages/Cab';
+// import Cab from './pages/Cab';
 import Timetable from './pages/TimeTable';
 import Bus from './pages/Bus';
 import BottomNav from './components/BottomNav';
 import NavbarDrawer from './components/NavbarDrawer';
+import Login from './pages/Login';
 
 import makeEventList from './makeEventList';
+
+import { lightTheme, darkTheme } from './Themes';
 
 import './App.css';
 
@@ -29,51 +35,58 @@ firebase.initializeApp({
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 });
 
-const googleProvider = new firebase.auth.GoogleAuthProvider();
-
-const muiTheme = createMuiTheme({
-  palette: {
-    primary: {
-      light: '#000000',
-      main: '#9c5cb4',
-      dark: '#002884',
-      contrastText: '#666666',
-    },
-    secondary: {
-      light: '#ff7961',
-      main: '#f44336',
-      dark: '#ba000d',
-      contrastText: '#666666',
-    },
-  },
-});
-
-const login = () => {
-  const provider = googleProvider;
-  provider.addScope('profile');
-  provider.addScope('email');
-  firebase.auth().signInWithPopup(provider);
-};
-
 function App() {
-  const [user, loading, error] = useAuthState(firebase.auth()); // eslint-disable-line
+  const [user, userLoading, userError] = useAuthState(firebase.auth()); // eslint-disable-line
   const [messData, setMessData] = useState({});
+  const [messDataLoading, setMessDataLoading] = useState(true);
+  const [messDataError, setMessDataError] = useState(false);
   const [busData, setBusData] = useState({});
+  const [busDataLoading, setBusDataLoading] = useState(true);
+  const [busDataError, setBusDataError] = useState(false);
 
   const masterKey = 'masterkey';
   const aimsKey = 'aimskey';
+  const customKey = 'customkey';
+  const themeKey = 'themeKey';
 
   const [aimsTimetable, setAimsTimetable] = useState(
     JSON.parse(localStorage.getItem(aimsKey)) || null,
   );
+  const [customEvents, setCustomEvents] = useState(
+    JSON.parse(localStorage.getItem(customKey)) || [],
+  );
   const [eventList, setEventList] = useState(
     JSON.parse(localStorage.getItem(masterKey)) || [],
+  );
+  const [theme, setTheme] = useState(
+    localStorage.getItem(themeKey) === 'light' ? lightTheme : darkTheme,
   );
 
   const db = firebase.firestore();
 
+  const addCustomEvent = (eventName, startTime, endTime) => {
+    const newEvent = {
+      title: eventName,
+      start: new Date(startTime),
+      end: new Date(endTime),
+    };
+    localStorage.setItem(
+      customKey,
+      JSON.stringify([...customEvents, newEvent]),
+    );
+
+    const newEventList = makeEventList(aimsTimetable, [
+      ...customEvents,
+      newEvent,
+    ]);
+    localStorage.setItem(masterKey, JSON.stringify(newEventList));
+
+    setEventList(newEventList);
+    setCustomEvents((currentList) => [...currentList, newEvent]);
+  };
+
   const updateTT = () => {
-    if (user && !loading && !error) {
+    if (user && !userLoading && !userError) {
       const docRef = db.collection('users').doc(user.uid);
       docRef
         .get()
@@ -85,7 +98,7 @@ function App() {
             tt.identifiedSlots = doc.data().identifiedSlots;
 
             if (JSON.stringify(aimsTimetable) !== JSON.stringify(tt)) {
-              const newEventList = makeEventList(tt);
+              const newEventList = makeEventList(tt, customEvents);
               console.log(newEventList);
               localStorage.setItem(masterKey, JSON.stringify(newEventList));
               setEventList(newEventList);
@@ -102,61 +115,108 @@ function App() {
     }
   };
 
+  const toggleTheme = () => {
+    if (theme.palette.type === 'dark') {
+      localStorage.setItem(themeKey, 'light');
+      setTheme({ ...lightTheme });
+    } else {
+      localStorage.setItem(themeKey, 'dark');
+      setTheme({ ...darkTheme });
+    }
+  };
 
   useEffect(() => {
     fetch(process.env.REACT_APP_MESS_API_ENDPOINT)
       .then((res) => res.json())
       .then((res) => {
         setMessData(res);
+        setMessDataLoading(false);
       })
-      .catch((err) => {
-        console.log(err);
-        setMessData(null);
+      .catch(() => {
+        setMessDataError(true);
       });
-  }, [setMessData]);
+  }, [setMessData, setMessDataLoading, setMessDataError]);
 
   useEffect(() => {
     fetch(process.env.REACT_APP_BUS_API_ENDPOINT)
       .then((res) => res.json())
       .then((res) => {
         setBusData(res);
+        setBusDataLoading(false);
       })
-      .catch((err) => {
-        console.log(err);
-        setBusData(null);
+      .catch(() => {
+        setBusDataError(true);
       });
-  }, [setBusData]);
+  }, [setBusData, setBusDataLoading, setBusDataError]);
 
-  if (!user) {
+  if (userError) {
+    return <h1>An error has ocurred. Please try again later</h1>;
+  }
+
+  if (userLoading) {
     return (
-      <button type="submit" onClick={login}>
-        Sign in with google
-        {' '}
-      </button>
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%,-50%)',
+        }}
+      >
+        <CircularProgress />
+      </div>
     );
   }
 
+  if (!user) {
+    return <Login />;
+  }
+  if (window.location.pathname === '/iith-dashboard-pwa') window.location.href = '/';
   return (
-    <Router>
-      <ThemeProvider theme={muiTheme}>
+    <Router basename="/">
+      <ThemeProvider theme={theme}>
         <CssBaseline />
-        <NavbarDrawer updateTT={updateTT} />
-        <Container className="main-container">
+        <NavbarDrawer updateTT={updateTT} toggleTheme={toggleTheme} />
+        <Container className="main-container" disableGutters>
           <Switch>
-            <Route path="/home">
-              <Home />
-            </Route>
             <Route path="/mess">
-              <Mess Menu={messData} />
+              <Container>
+                <Mess
+                  Menu={messData}
+                  loading={messDataLoading}
+                  error={messDataError}
+                />
+              </Container>
             </Route>
-            <Route path="/cab">
+            {/* <Route path="/cab">
               <Cab />
-            </Route>
+            </Route> */}
             <Route path="/bus">
-              <Bus schedule={busData} />
+              <Container>
+                <Bus
+                  schedule={busData}
+                  loading={busDataLoading}
+                  error={busDataError}
+                />
+              </Container>
             </Route>
             <Route path="/timetable">
-              <Timetable eventList={eventList} />
+              {/* No container here so that timetable component fills the width */}
+              <Timetable
+                eventList={eventList}
+                handleNewCustomEvent={addCustomEvent}
+              />
+            </Route>
+            <Route path="">
+              <Container>
+                <Home
+                  Menu={messData}
+                  schedule={busData}
+                  events={eventList}
+                  loading={busDataLoading || messDataLoading}
+                  error={messDataError || busDataError}
+                />
+              </Container>
             </Route>
           </Switch>
         </Container>

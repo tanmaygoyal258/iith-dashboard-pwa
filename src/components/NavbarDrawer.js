@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -12,13 +13,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SettingsIcon from '@material-ui/icons/Settings';
-import InfoIcon from '@material-ui/icons/Info';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { Switch, FormControlLabel } from '@material-ui/core';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NavbarDrawer({ updateTT }) {
+function NavbarDrawer({ updateTT, toggleTheme }) {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   function handleDrawerToggle() {
@@ -57,14 +57,6 @@ function NavbarDrawer({ updateTT }) {
   const drawer = (
     <div>
       <Divider />
-      <List>
-        <ListItem button key="Profile">
-          <ListItemIcon>
-            <AccountCircleIcon />
-          </ListItemIcon>
-          <ListItemText primary="Profile" />
-        </ListItem>
-      </List>
       <List>
         <ListItem
           button
@@ -75,15 +67,7 @@ function NavbarDrawer({ updateTT }) {
           <ListItemIcon>
             <SettingsIcon />
           </ListItemIcon>
-          <ListItemText primary="Sync with aims timetable" />
-        </ListItem>
-      </List>
-      <List>
-        <ListItem button key="Info">
-          <ListItemIcon>
-            <InfoIcon />
-          </ListItemIcon>
-          <ListItemText primary="Info" />
+          <ListItemText primary="Sync with AIMS Timetable" />
         </ListItem>
       </List>
       <Divider />
@@ -102,6 +86,15 @@ function NavbarDrawer({ updateTT }) {
             <ExitToAppIcon />
           </ListItemIcon>
           <ListItemText primary="Logout" />
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <ListItem>
+          <FormControlLabel
+            control={<Switch onChange={toggleTheme} />}
+            label="Toggle Theme"
+          />
         </ListItem>
       </List>
     </div>
@@ -164,6 +157,7 @@ function NavbarDrawer({ updateTT }) {
 }
 NavbarDrawer.propTypes = {
   updateTT: PropTypes.func,
+  toggleTheme: PropTypes.func,
 };
-NavbarDrawer.defaultProps = { updateTT: [] };
+NavbarDrawer.defaultProps = { updateTT: () => {}, toggleTheme: () => {} };
 export default NavbarDrawer;

@@ -1,28 +1,40 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import { makeStyles } from '@material-ui/core/styles';
-import moment from 'moment';
+import FullCalendar from '@fullcalendar/react';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import SnackBar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import Box from '@material-ui/core/Box';
 
-const localizer = momentLocalizer(moment);
+import './TimeTable.css';
 
-function TimeTable({ eventList }) {
-  const [open, setOpen] = React.useState(false);
-  const [title, setTitle] = React.useState('Null');
-  const [startDate, setStartDate] = React.useState(null);
-  const [def, setDefault] = React.useState(null);
-  const [endDate, setEndDate] = React.useState(null);
+function TimeTable({ eventList, handleNewCustomEvent }) {
+  const [open, setOpen] = useState(false);
+  const [def, setDefault] = useState(null);
+  const [showAimsError, setShowAimsError] = useState(
+    localStorage.getItem('aimskey') === null,
+  );
+
+  const muiTheme = useTheme();
+
+  let title = '';
+  let eventDate = null;
+  let startTime = null;
+  let endTime = null;
+
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const useStyles = makeStyles((theme) => ({
     container: {
       display: 'flex',
@@ -36,18 +48,25 @@ function TimeTable({ eventList }) {
   }));
 
   useEffect(() => {
+    document
+      .querySelector('#calendar-div')
+      .style.setProperty('--primary-color', muiTheme.palette.primary.main);
+    document
+      .querySelector('#calendar-div')
+      .style.setProperty('--text-color', muiTheme.palette.primary.contrastText);
+  });
+
+  useEffect(() => {
     const today = new Date();
-    const date = `${today.getFullYear().toString()
-    }-${
+    const date = `${today.getFullYear().toString()}-${
       today.getMonth() + 1 < 10
         ? `0${(today.getMonth() + 1).toString()}`
         : (today.getMonth() + 1).toString()
-    }-${
-      today.getDate().toString()
-    }T${
-      today.getHours().toString()
-    }:${
-      today.getMinutes().toString()}`;
+    }-${today
+      .getDate()
+      .toString()}T${today
+      .getHours()
+      .toString()}:${today.getMinutes().toString()}`;
     setDefault(date);
   }, []);
 
@@ -58,38 +77,87 @@ function TimeTable({ eventList }) {
   };
 
   const handleTitleChange = (event) => {
-    setTitle(event.target.value);
+    title = event.target.value;
+  };
+
+  const handleDateChange = (event) => {
+    eventDate = event.target.value;
   };
 
   const handleStartChange = (event) => {
-    setStartDate(event.target.value);
+    startTime = event.target.value;
   };
 
   const handleEndChange = (event) => {
-    setEndDate(event.target.value);
+    endTime = event.target.value;
   };
 
   const genNewEvent = () => {
-    // YOUR CODE HERE
+    if (!eventDate || !endTime || !startTime) {
+      alert('Start and End Times must be specified to create a new event');
+      handleClose();
+      return;
+    }
+    // TODO: Ensure that end date is after start date, might mess up the Calendar library otherwise
+    const startDate = new Date(`${eventDate} ${startTime}:00`);
+    const endDate = new Date(`${eventDate} ${endTime}:00`);
+    if (startDate < endDate) {
+      handleNewCustomEvent(title, startDate, endDate);
+    } else {
+      handleNewCustomEvent(title, endDate, startDate);
+    }
     handleClose();
   };
 
-  // Custom accessors needed since the eventList is stored in localStorage, where the
-  // Date is stringified
   return (
-    <div>
-      <Calendar
-        localizer={localizer}
+    <div id="calendar-div">
+      <FullCalendar
+        plugins={[dayGridPlugin, timeGridPlugin]}
+        initialView="timeGridWeek"
+        headerToolbar={{
+          left: 'prev,today,next',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay',
+        }}
+        slotLabelFormat={{
+          hour: 'numeric',
+          hour12: false,
+        }}
+        expandRows={false}
+        scrollTime="09:00:00"
+        eventOverlap
+        slotEventOverlap={false}
+        nowIndicator
         events={eventList}
-        defaultDate={new Date()}
-        startAccessor={(event) => new Date(event.start)}
-        endAccessor={(event) => new Date(event.end)}
-        scrollToTime={moment().hour(9).toDate()}
-        style={{ height: 500 }}
+        height={500}
       />
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Add event
-      </Button>
+      <Box display="flex" justifyContent="center" alignItems="center">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleClickOpen}
+          style={{ margin: '5px' }}
+        >
+          Add event
+        </Button>
+      </Box>
+      <SnackBar
+        open={showAimsError}
+        autoHideDuration={3000}
+        onClose={(event, reason) => {
+          if (reason === 'clickaway') {
+            return;
+          }
+
+          setShowAimsError(false);
+        }}
+        style={{
+          marginBottom: '10%',
+        }}
+      >
+        <MuiAlert elevation={6} variant="filled" severity="warning">
+          AIMS Timetable not synced
+        </MuiAlert>
+      </SnackBar>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -109,9 +177,20 @@ function TimeTable({ eventList }) {
             onChange={handleTitleChange}
           />
           <TextField
-            id="start_date"
-            label="Start time"
-            type="datetime-local"
+            id="event_date"
+            label="Event date"
+            type="date"
+            defaultValue={def}
+            className={classes.textField}
+            onChange={handleDateChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <TextField
+            id="start_time"
+            label="Start Time"
+            type="time"
             defaultValue={def}
             className={classes.textField}
             onChange={handleStartChange}
@@ -120,9 +199,9 @@ function TimeTable({ eventList }) {
             }}
           />
           <TextField
-            id="start_date"
-            label="Start time"
-            type="datetime-local"
+            id="end_time"
+            label="End Time"
+            type="time"
             defaultValue={def}
             className={classes.textField}
             onChange={handleEndChange}
@@ -132,24 +211,29 @@ function TimeTable({ eventList }) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={genNewEvent} color="primary">
+          <Button
+            onClick={genNewEvent}
+            color="primary"
+            style={{ margin: '10px' }}
+          >
             Save
           </Button>
         </DialogActions>
       </Dialog>
-      <div>{title}</div>
-      <div>{startDate}</div>
-      <div>{endDate}</div>
     </div>
   );
 }
 
 TimeTable.propTypes = {
   eventList: PropTypes.arrayOf(PropTypes.object),
+  handleNewCustomEvent: PropTypes.func,
 };
 
 TimeTable.defaultProps = {
   eventList: [],
+  handleNewCustomEvent: () => {
+    alert('Error, please try again later');
+  },
 };
 
 export default TimeTable;
