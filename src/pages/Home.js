@@ -70,9 +70,9 @@ function Home({
       const buses = [];
       let check = 0;
       if (start === 0) {
-        let timeSet = schedule.ToIITH.LINGAMPALLY.map((x) => x);
+        let timeSet = schedule.TOIITH.LINGAMPALLY.map((x) => x);
         if (date.getDay() === 0 || date.getDay() === 6) {
-          timeSet = schedule.ToIITH.LINGAMPALLYW.map((x) => x);
+          timeSet = schedule.TOIITH.LINGAMPALLYW.map((x) => x);
         }
         for (let i = 0; i < timeSet.length; i += 1) {
           const index = timeSet[i].lastIndexOf(':');
@@ -86,7 +86,7 @@ function Home({
         }
         if (check === 0) buses.push(timeSet[0]);
         check = 0;
-        timeSet = schedule.ToIITH.LAB.map((x) => x);
+        timeSet = schedule.TOIITH.LAB.map((x) => x);
         for (let i = 0; i < timeSet.length; i += 1) {
           const index = timeSet[i].lastIndexOf(':');
           const hoursText = parseFloat(timeSet[i].substring(0, index))
@@ -99,7 +99,7 @@ function Home({
         }
         if (check === 0) buses.push(timeSet[0]);
         check = 0;
-        timeSet = schedule.ToIITH.SANGAREDDY.map((x) => x);
+        timeSet = schedule.TOIITH.SANGAREDDY.map((x) => x);
         for (let i = 0; i < timeSet.length; i += 1) {
           const index = timeSet[i].lastIndexOf(':');
           const hoursText = parseFloat(timeSet[i].substring(0, index))
@@ -113,9 +113,9 @@ function Home({
         if (check === 0) buses.push(timeSet[0]);
         check = 0;
       } else {
-        let timeSet = schedule.FromIITH.LINGAMPALLY.map((x) => x);
+        let timeSet = schedule.FROMIITH.LINGAMPALLY.map((x) => x);
         if (date.getDay() === 0 || date.getDay() === 6) {
-          timeSet = schedule.FromIITH.LINGAMPALLYW.map((x) => x);
+          timeSet = schedule.FROMIITH.LINGAMPALLYW.map((x) => x);
         }
         for (let i = 0; i < timeSet.length; i += 1) {
           const index = timeSet[i].lastIndexOf(':');
@@ -129,7 +129,7 @@ function Home({
         }
         if (check === 0) buses.push(timeSet[0]);
         check = 0;
-        timeSet = schedule.FromIITH.LAB.map((x) => x);
+        timeSet = schedule.FROMIITH.LAB.map((x) => x);
         for (let i = 0; i < timeSet.length; i += 1) {
           const index = timeSet[i].lastIndexOf(':');
           const hoursText = parseFloat(timeSet[i].substring(0, index))
@@ -142,7 +142,7 @@ function Home({
         }
         if (check === 0) buses.push(timeSet[0]);
         check = 0;
-        timeSet = schedule.FromIITH.SANGAREDDY.map((x) => x);
+        timeSet = schedule.FROMIITH.SANGAREDDY.map((x) => x);
         for (let i = 0; i < timeSet.length; i += 1) {
           const index = timeSet[i].lastIndexOf(':');
           const hoursText = parseFloat(timeSet[i].substring(0, index))
@@ -188,6 +188,7 @@ function Home({
   const getEvents = () => {
     const today = new Date();
     const currentEvents = [];
+    let count = 0;
     for (let i = 0; i < events.length; i += 1) {
       const event = events[i];
       const eventDate = new Date(event.start);
@@ -216,8 +217,16 @@ function Home({
         } else {
           newEvent.timestamp = '';
         }
+        count += 1;
         currentEvents.push(newEvent);
       }
+    }
+    if (count === 0) {
+      return (
+        <div>
+          <Typography>Plenty of time to spare!</Typography>
+        </div>
+      );
     }
     return (
       <div>
@@ -332,7 +341,7 @@ function Home({
                     if (window.location.pathname !== '/bus') window.location.assign(`${window.location.href}bus`);
                   }}
                 >
-                  <Typography variant="h6">Bus schedule</Typography>
+                  <Typography variant="h6">EV schedule</Typography>
                 </Box>
               </Grid>
               <Grid item xs={6} justifyContent="flex-end" alignitems="center">

@@ -8,7 +8,7 @@ import {
   Divider, List, ListItem, ListItemText,
 } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
-//test commit
+// test commit
 import './Bus.css';
 
 function Bus({ schedule, loading, error }) {
@@ -35,12 +35,12 @@ function Bus({ schedule, loading, error }) {
       let times;
       if (location === 'LINGAMPALLY') {
         if (isWeekend) {
-          times = schedule.ToIITH.LINGAMPALLYW;
+          times = schedule.TOIITH.LINGAMPALLYW;
         } else {
-          times = schedule.ToIITH.LINGAMPALLY;
+          times = schedule.TOIITH.LINGAMPALLY;
         }
       } else {
-        times = schedule.ToIITH[location];
+        times = schedule.TOIITH[location];
       }
 
       return times.map((time) => (
@@ -56,12 +56,12 @@ function Bus({ schedule, loading, error }) {
       let times;
       if (location === 'LINGAMPALLY') {
         if (isWeekend) {
-          times = schedule.FromIITH.LINGAMPALLYW;
+          times = schedule.FROMIITH.LINGAMPALLYW;
         } else {
-          times = schedule.FromIITH.LINGAMPALLY;
+          times = schedule.FROMIITH.LINGAMPALLY;
         }
       } else {
-        times = schedule.FromIITH[location];
+        times = schedule.FROMIITH[location];
       }
 
       return times.map((time) => (
