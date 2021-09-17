@@ -1,6 +1,8 @@
 #calendar-div {
-  --primary-color: purple;
+  --primary-color: teal;
   --text-color: white;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .fc-event-time {

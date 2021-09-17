@@ -301,6 +301,7 @@ function Home({
         onClick={() => {
           if (window.location.pathname !== '/timetable') window.location.assign(`${window.location.href}timetable`);
         }}
+        style={{ marginBottom: '10px' }}
       >
         <CardContent>
           <Typography variant="h6">Today&apos;s Agenda</Typography>
@@ -312,6 +313,7 @@ function Home({
         onClick={() => {
           if (window.location.pathname !== '/mess') window.location.assign(`${window.location.href}mess`);
         }}
+        style={{ marginBottom: '10px' }}
       >
         <CardContent>
           <Typography variant="h6">

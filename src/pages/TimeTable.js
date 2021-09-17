@@ -135,7 +135,7 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
           variant="contained"
           color="primary"
           onClick={handleClickOpen}
-          style={{ margin: '5px' }}
+          style={{ margin: '20px' }}
         >
           Add event
         </Button>

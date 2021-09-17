@@ -19,6 +19,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Switch, FormControlLabel } from '@material-ui/core';
+import './NavBarDrawer.css';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
