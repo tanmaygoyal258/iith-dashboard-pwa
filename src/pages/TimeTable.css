@@ -1,6 +1,7 @@
 #calendar-div {
   --primary-color: teal;
   --text-color: white;
+  --border-color: white;
   padding-left: 15px;
   padding-right: 15px;
 }
@@ -53,4 +54,22 @@
     var(--fc-event-border-color, var(--primary-color));
   border-radius: 4px;
   border-radius: calc(var(--fc-daygrid-event-dot-width, 8px) / 2);
+}
+
+.fc-header-toolbar {
+  margin-bottom: 1.5em;
+  margin-left: 0em;
+  margin-right: 0em;
+}
+
+.fc-theme-standard td {
+  border: 1px solid var(--fc-border-color, var(--border-color));
+}
+
+.fc-theme-standard th {
+  border: 1px solid var(--fc-border-color, var(--border-color));
+}
+
+.fc-theme-standard .fc-scrollgrid {
+  border: 1px solid var(--fc-border-color, var(--border-color));
 }

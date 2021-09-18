@@ -54,6 +54,9 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
     document
       .querySelector('#calendar-div')
       .style.setProperty('--text-color', muiTheme.palette.primary.contrastText);
+    document
+      .querySelector('#calendar-div')
+      .style.setProperty('--border-color', '#808080');
   });
 
   useEffect(() => {
