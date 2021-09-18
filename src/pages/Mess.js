@@ -127,21 +127,26 @@ function Mess({ Menu, loading, error }) {
     const listItems = Menu[hall][days[activeStep]][meal];
     const additionalKey = `${hall} Additional`;
     const extraItems = Menu[additionalKey][days[activeStep]][meal];
+    if (typeof extraItems === 'string') {
+      return (
+        <div>
+          {listItems.map((item) => (
+            <div>{item}</div>
+          ))}
+        </div>
+      );
+    }
     return (
       <div>
         {listItems.map((item) => (
-          <div>
-            {item}
-          </div>
+          <div>{item}</div>
         ))}
         <Divider />
         <div>
           <Typography>Extras</Typography>
         </div>
         {extraItems.map((item) => (
-          <div>
-            {item}
-          </div>
+          <div>{item}</div>
         ))}
       </div>
     );
