@@ -45,7 +45,7 @@ function Bus({ schedule, loading, error }) {
 
       return times.map((time) => (
         <>
-          <ListItem key={time}>
+          <ListItem key={time} style={{ textAlign: 'center' }}>
             <ListItemText>{time}</ListItemText>
           </ListItem>
           <Divider />
@@ -66,7 +66,7 @@ function Bus({ schedule, loading, error }) {
 
       return times.map((time) => (
         <>
-          <ListItem key={time}>
+          <ListItem key={time} style={{ textAlign: 'center' }}>
             <ListItemText>{time}</ListItemText>
           </ListItem>
           <Divider />
@@ -142,7 +142,8 @@ function Bus({ schedule, loading, error }) {
         display="flex"
         flexDirection="row"
         justifyContent="space-around"
-        padding="50px"
+        paddingTop="48px"
+        padding="20px"
       >
         <Box>
           <h3>

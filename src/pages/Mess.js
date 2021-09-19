@@ -197,7 +197,7 @@ function Mess({ Menu, loading, error }) {
                   activeStep={activeStep}
                   activeColor={theme.palette.primary.main}
                   defaultColor={theme.palette.primary.contrastText}
-                  textColor="black"
+                  textColor={activeStep === index ? 'white' : 'black'}
                 />
               )}
               onClick={() => setActiveStep(index)}
