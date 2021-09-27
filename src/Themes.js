@@ -19,6 +19,9 @@ export const lightTheme = createMuiTheme({
   },
   typography: {
     fontFamily: [
+      'Source Sans Pro',
+      'Lato',
+      'Raleway',
       '-apple-system',
       'BlinkMacSystemFont',
       '"Segoe UI"',
@@ -55,6 +58,9 @@ export const darkTheme = createMuiTheme({
   },
   typography: {
     fontFamily: [
+      'Source Sans Pro',
+      'Lato',
+      'Raleway',
       '-apple-system',
       'BlinkMacSystemFont',
       '"Segoe UI"',
