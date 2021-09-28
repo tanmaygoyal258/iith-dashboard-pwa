@@ -30,7 +30,6 @@ export function register(config) {
       // serve assets; see https://github.com/facebook/create-react-app/issues/2374
       return;
     }
-
     window.addEventListener("load", () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
@@ -50,6 +49,14 @@ export function register(config) {
         // Is not localhost. Just register service worker
         registerValidSW(swUrl, config);
       }
+    });
+    window.addEventListener("fetch", function (event) {
+      console.log("Request made");
+      event.respondWith(
+        fetch(event.request).catch(function () {
+          return caches.match(event.request);
+        })
+      );
     });
   }
 }

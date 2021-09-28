@@ -8,16 +8,16 @@ import {
   Divider, List, ListItem, ListItemText,
 } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
 import './Bus.css';
 
 function Bus({ schedule, loading, error }) {
   const [location, setLocation] = useState('LAB');
-  const [isWeekend, setIsWeekend] = useState(false);
+  //const [isWeekend, setIsWeekend] = useState(false);
+  const isWeekend  = false;
   const [open, setOpen] = useState(false);
-  const toggleWeek = () => {
-    setIsWeekend(!isWeekend);
-  };
+  // const toggleWeek = () => {
+  //   setIsWeekend(!isWeekend);
+  // };
   const handleClose = () => {
     setOpen(false);
   };
@@ -35,17 +35,17 @@ function Bus({ schedule, loading, error }) {
       let times;
       if (location === 'LINGAMPALLY') {
         if (isWeekend) {
-          times = schedule.ToIITH.LINGAMPALLYW;
+          times = schedule.TOIITH.LINGAMPALLYW;
         } else {
-          times = schedule.ToIITH.LINGAMPALLY;
+          times = schedule.TOIITH.LINGAMPALLY;
         }
       } else {
-        times = schedule.ToIITH[location];
+        times = schedule.TOIITH[location];
       }
 
       return times.map((time) => (
         <>
-          <ListItem key={time}>
+          <ListItem key={time} style={{ textAlign: 'center' }}>
             <ListItemText>{time}</ListItemText>
           </ListItem>
           <Divider />
@@ -56,17 +56,17 @@ function Bus({ schedule, loading, error }) {
       let times;
       if (location === 'LINGAMPALLY') {
         if (isWeekend) {
-          times = schedule.FromIITH.LINGAMPALLYW;
+          times = schedule.FROMIITH.LINGAMPALLYW;
         } else {
-          times = schedule.FromIITH.LINGAMPALLY;
+          times = schedule.FROMIITH.LINGAMPALLY;
         }
       } else {
-        times = schedule.FromIITH[location];
+        times = schedule.FROMIITH[location];
       }
 
       return times.map((time) => (
         <>
-          <ListItem key={time}>
+          <ListItem key={time} style={{ textAlign: 'center' }}>
             <ListItemText>{time}</ListItemText>
           </ListItem>
           <Divider />
@@ -117,13 +117,13 @@ function Bus({ schedule, loading, error }) {
   return (
     <div>
       <Box display="flex" flexDirection="row" justifyContent="space-between">
-        <Button
+        {/* <Button
           color="primary"
           variant="contained"
           onClick={() => toggleWeek()}
         >
           {isWeekend ? 'Weekday' : 'Weekend'}
-        </Button>
+        </Button> */}
         <Select
           labelId="demo-controlled-open-select-label"
           id="demo-controlled-open-select"
@@ -142,7 +142,8 @@ function Bus({ schedule, loading, error }) {
         display="flex"
         flexDirection="row"
         justifyContent="space-around"
-        padding="50px"
+        paddingTop="48px"
+        padding="20px"
       >
         <Box>
           <h3>

@@ -54,6 +54,9 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
     document
       .querySelector('#calendar-div')
       .style.setProperty('--text-color', muiTheme.palette.primary.contrastText);
+    document
+      .querySelector('#calendar-div')
+      .style.setProperty('--border-color', '#808080');
   });
 
   useEffect(() => {
@@ -127,15 +130,17 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
         eventOverlap
         slotEventOverlap={false}
         nowIndicator
+        allDaySlot={false}
         events={eventList}
-        height={500}
+        height="70vh"
       />
+
       <Box display="flex" justifyContent="center" alignItems="center">
         <Button
           variant="contained"
           color="primary"
           onClick={handleClickOpen}
-          style={{ margin: '5px' }}
+          style={{ margin: '10px' }}
         >
           Add event
         </Button>
@@ -214,7 +219,7 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
           <Button
             onClick={genNewEvent}
             color="primary"
-            style={{ margin: '10px' }}
+            style={{ margin: '16px' }}
           >
             Save
           </Button>

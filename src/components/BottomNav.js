@@ -57,7 +57,7 @@ function BottomNav() {
       <BottomNavigationAction
         component={Link}
         to="/bus"
-        label={isMobile ? '' : 'Bus'}
+        label={isMobile ? '' : 'EV'}
         value="bus"
         icon={<DirectionsBusIcon />}
       />

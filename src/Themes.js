@@ -4,14 +4,14 @@ export const lightTheme = createMuiTheme({
   palette: {
     primary: {
       light: '#c158dc',
-      main: '#8e24aa',
-      dark: '#5c007a',
+      main: '#008080',
+      dark: '#00CCCC',
       contrastText: '#FFFFFF',
     },
     secondary: {
       light: '#c158dc',
-      main: '#8e24aa',
-      dark: '#5c007a',
+      main: '#008080',
+      dark: '#00CCCC',
       contrastText: '#FFFFFF',
     },
     background: {},
@@ -19,6 +19,9 @@ export const lightTheme = createMuiTheme({
   },
   typography: {
     fontFamily: [
+      'Source Sans Pro',
+      'Lato',
+      'Raleway',
       '-apple-system',
       'BlinkMacSystemFont',
       '"Segoe UI"',
@@ -37,14 +40,14 @@ export const darkTheme = createMuiTheme({
   palette: {
     primary: {
       light: '#c158dc',
-      main: '#8e24aa',
-      dark: '#5c007a',
+      main: '#008080',
+      dark: '#006666',
       contrastText: '#FFFFFF',
     },
     secondary: {
       light: '#c158dc',
-      main: '#8e24aa',
-      dark: '#5c007a',
+      main: '#008080',
+      dark: '#006666',
       contrastText: '#FFFFFF',
     },
     background: {
@@ -55,6 +58,9 @@ export const darkTheme = createMuiTheme({
   },
   typography: {
     fontFamily: [
+      'Source Sans Pro',
+      'Lato',
+      'Raleway',
       '-apple-system',
       'BlinkMacSystemFont',
       '"Segoe UI"',

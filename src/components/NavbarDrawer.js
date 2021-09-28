@@ -13,12 +13,13 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MenuIcon from '@material-ui/icons/Menu';
-import SettingsIcon from '@material-ui/icons/Settings';
+import SyncIcon from '@material-ui/icons/Sync';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Switch, FormControlLabel } from '@material-ui/core';
+import './NavBarDrawer.css';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -65,7 +66,7 @@ function NavbarDrawer({ updateTT, toggleTheme }) {
           onClick={updateTT}
         >
           <ListItemIcon>
-            <SettingsIcon />
+            <SyncIcon />
           </ListItemIcon>
           <ListItemText primary="Sync with AIMS Timetable" />
         </ListItem>
