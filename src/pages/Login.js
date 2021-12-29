@@ -17,6 +17,9 @@ const login = () => {
     })
     .catch((err) => {
       console.log(err);
+      console.log(process.env.REACT_APP_FIREBASE_AUTH_DOMAIN);
+      console.log(process.env.REACT_APP_FIREBASE_AUTH_DOMAIN);
+      console.log(process.env.REACT_APP_FIREBASE_DATABASE_URL);
     });
 };
 
@@ -31,7 +34,7 @@ function Login() {
         height: '100vh',
       }}
     >
-      <img src={logo} alt="IITH-Dashboard Logo" />
+      <img src={logo} alt="IITH-Dashboard Logo" className="logo-img" />
       <p>Sign in to continue to IITH Dashboard.</p>
       <Button onClick={login} color="primary" variant="contained">
         Sign in with Google
