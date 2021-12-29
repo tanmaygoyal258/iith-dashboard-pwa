@@ -1,7 +1,7 @@
 # The IITH Dashboard App
 
 A cross-platform PWA supporting Android, iOS and the Web.
-Current deployment of `master` can be found [here](https://iith-dashboard.github.io/iith-dashboard-pwa/).
+Current deployment of `master` can be found [here](https://lambdaiith.github.io/iith-dashboard-pwa/).
 
 ## Contributing
 

@@ -78,6 +78,7 @@ You don't need to read all the outlined stuff; a lot of them are there for the s
 
 - [Get Started with Git](https://alistapart.com/article/get-started-with-git/)
 - [GitHub Actions](https://gabrieltanner.org/blog/an-introduction-to-github-actions)
+- [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/) - **Read this**
 
 ### Tests
 - [Write Tests](https://kentcdodds.com/blog/write-tests)
