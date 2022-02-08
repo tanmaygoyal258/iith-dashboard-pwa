@@ -17,9 +17,6 @@ const login = () => {
     })
     .catch((err) => {
       console.log(err);
-      console.log(process.env.REACT_APP_FIREBASE_AUTH_DOMAIN);
-      console.log(process.env.REACT_APP_FIREBASE_AUTH_DOMAIN);
-      console.log(process.env.REACT_APP_FIREBASE_DATABASE_URL);
     });
 };
 

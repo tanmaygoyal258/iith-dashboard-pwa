@@ -155,21 +155,31 @@ function App() {
 
   if (userLoading) {
     return (
-      <div
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%,-50%)',
-        }}
-      >
-        <CircularProgress />
-      </div>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Container>
+          <div
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%,-50%)',
+            }}
+          >
+            <CircularProgress />
+          </div>
+        </Container>
+      </ThemeProvider>
     );
   }
 
   if (!user) {
-    return <Login />;
+    return (
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Login />
+      </ThemeProvider>
+    );
   }
   if (window.location.pathname === '/iith-dashboard-pwa') window.location.href = '/';
   return (
