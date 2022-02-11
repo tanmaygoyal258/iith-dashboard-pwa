@@ -230,6 +230,11 @@ function makeEventList(aimsTimeTable, customEventList) {
       const slot = aimsTimeTable.identifiedSlots[index];
       const segmentStartDate = moment(segmentStartDates[startSegment - 1]);
       const segmentEndDate = moment(segmentEndDates[endSegment - 1]);
+      let courseDisplayName = courseCode;
+      // eslint-disable-next-line
+      if (aimsTimeTable.identifiedCourseNames?.[index]) { 
+        courseDisplayName = `${aimsTimeTable.identifiedCourseNames[index]} (${courseCode})`;
+      }
 
       slotInfo[slot].forEach((currSlot) => {
         let i = currSlot.day;
@@ -253,7 +258,7 @@ function makeEventList(aimsTimeTable, customEventList) {
           courseEvents.push({
             start: courseTime.toDate(),
             end: courseTime.clone().add(currSlot.duration, 'minutes').toDate(),
-            title: courseCode,
+            title: courseDisplayName,
           });
 
           i += 7;

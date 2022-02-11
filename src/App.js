@@ -93,9 +93,18 @@ function App() {
         .then((doc) => {
           if (doc.exists) {
             const tt = {};
+
             tt.identifiedCourses = doc.data().identifiedCourses;
             tt.identifiedSegments = doc.data().identifiedSegments;
             tt.identifiedSlots = doc.data().identifiedSlots;
+            
+            if (
+              'identifiedCourseNames' in doc.data()
+            ) {
+              tt.identifiedCourseNames = doc.data().identifiedCourseNames;
+            } else {
+              tt.identifiedCourseNames = null;
+            }
 
             if (JSON.stringify(aimsTimetable) !== JSON.stringify(tt)) {
               const newEventList = makeEventList(tt, customEvents);
