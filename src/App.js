@@ -84,6 +84,19 @@ function App() {
     setEventList(newEventList);
     setCustomEvents((currentList) => [...currentList, newEvent]);
   };
+  const removeEvent = (eventName) => {
+    const jsonObj = JSON.parse(localStorage.getItem(customKey)) || [];
+    if (jsonObj.title === eventName) {
+      localStorage.removeItem(jsonObj.title);
+    }
+
+    localStorage.setItem(customKey, JSON.stringify(customEvents));
+    const newEventList = makeEventList(aimsTimetable, customEvents);
+    localStorage.setItem(masterKey, JSON.stringify(newEventList));
+
+    setEventList(newEventList);
+    setCustomEvents((currentList) => [currentList]);
+  };
 
   const updateTT = () => {
     if (user && !userLoading && !userError) {
@@ -215,6 +228,7 @@ function App() {
               <Timetable
                 eventList={eventList}
                 handleNewCustomEvent={addCustomEvent}
+                handleDeleteEvent={removeEvent}
               />
             </Route>
             <Route path="">
