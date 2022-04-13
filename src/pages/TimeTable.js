@@ -14,6 +14,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import SnackBar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import './TimeTable.css';
 
@@ -104,8 +106,22 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
     // TODO: Ensure that end date is after start date, might mess up the Calendar library otherwise
     const startDate = new Date(`${eventDate} ${startTime}:00`);
     const endDate = new Date(`${eventDate} ${endTime}:00`);
+    const weekly = document.getElementById('weekly_recur');
+    const daily = document.getElementById('daily_recur');
+
     if (startDate < endDate) {
       handleNewCustomEvent(title, startDate, endDate);
+
+      if (weekly.checked) {
+        for (let i = 0; i < 4; i += 1) {
+          handleNewCustomEvent(title, startDate.getDate() + 7, endDate);
+        }
+      }
+      if (daily.checked) {
+        for (let i = 1; i < 7; i += 1) {
+          handleNewCustomEvent(title, startDate.getDate() + i, endDate);
+        }
+      }
     } else {
       handleNewCustomEvent(title, endDate, startDate);
     }
@@ -215,6 +231,26 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
             }}
           />
         </DialogContent>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+        {/* <label htmlFor="daily_recur">Daily:
+        <input type="checkbox" id='daily_recur'/></label> */}
+        <FormControlLabel
+          control={
+            <Checkbox name="checkedB" color="primary" id="daily_recur" />
+          }
+          label="-Daily"
+        />
+
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+        {/* <label htmlFor="weekly_recur">Weekly:
+        <input type="checkbox" id='weekly_recur'/></label> */}
+        <FormControlLabel
+          control={
+            <Checkbox name="checkedB" color="primary" id="weekly_recur" />
+          }
+          label="-Weekly"
+        />
+
         <DialogActions>
           <Button
             onClick={genNewEvent}
