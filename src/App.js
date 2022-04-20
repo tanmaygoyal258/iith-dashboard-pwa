@@ -64,25 +64,14 @@ function App() {
 
   const db = firebase.firestore();
 
-  const addCustomEvent = (eventName, startTime, endTime) => {
-    const newEvent = {
-      title: eventName,
-      start: new Date(startTime),
-      end: new Date(endTime),
-    };
-    localStorage.setItem(
-      customKey,
-      JSON.stringify([...customEvents, newEvent]),
-    );
-
-    const newEventList = makeEventList(aimsTimetable, [
-      ...customEvents,
-      newEvent,
-    ]);
+  const addCustomEvent = (events) => {
+    const newCustomEvents = customEvents.slice();
+    newCustomEvents.push(...events);
+    const newEventList = makeEventList(aimsTimetable, newCustomEvents);
     localStorage.setItem(masterKey, JSON.stringify(newEventList));
-
+    localStorage.setItem(customKey, JSON.stringify(newCustomEvents));
     setEventList(newEventList);
-    setCustomEvents((currentList) => [...currentList, newEvent]);
+    setCustomEvents(newCustomEvents);
   };
 
   const updateTT = () => {
@@ -93,20 +82,24 @@ function App() {
         .then((doc) => {
           if (doc.exists) {
             const tt = {};
+
             tt.identifiedCourses = doc.data().identifiedCourses;
             tt.identifiedSegments = doc.data().identifiedSegments;
             tt.identifiedSlots = doc.data().identifiedSlots;
 
+            if ('identifiedCourseNames' in doc.data()) {
+              tt.identifiedCourseNames = doc.data().identifiedCourseNames;
+            } else {
+              tt.identifiedCourseNames = null;
+            }
+
             if (JSON.stringify(aimsTimetable) !== JSON.stringify(tt)) {
               const newEventList = makeEventList(tt, customEvents);
-              console.log(newEventList);
               localStorage.setItem(masterKey, JSON.stringify(newEventList));
               setEventList(newEventList);
               localStorage.setItem(aimsKey, JSON.stringify(tt));
               setAimsTimetable(tt);
             }
-          } else {
-            console.log('No such document');
           }
         })
         .catch((err) => {
@@ -155,21 +148,31 @@ function App() {
 
   if (userLoading) {
     return (
-      <div
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%,-50%)',
-        }}
-      >
-        <CircularProgress />
-      </div>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Container>
+          <div
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%,-50%)',
+            }}
+          >
+            <CircularProgress />
+          </div>
+        </Container>
+      </ThemeProvider>
     );
   }
 
   if (!user) {
-    return <Login />;
+    return (
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Login />
+      </ThemeProvider>
+    );
   }
   if (window.location.pathname === '/iith-dashboard-pwa') window.location.href = '/';
   return (

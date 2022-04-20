@@ -12,8 +12,8 @@ import './Bus.css';
 
 function Bus({ schedule, loading, error }) {
   const [location, setLocation] = useState('LAB');
-  //const [isWeekend, setIsWeekend] = useState(false);
-  const isWeekend  = false;
+  // const [isWeekend, setIsWeekend] = useState(false);
+  const isWeekend = false;
   const [open, setOpen] = useState(false);
   // const toggleWeek = () => {
   //   setIsWeekend(!isWeekend);
