@@ -9,7 +9,7 @@ const segmentStartDates = [
   '2021-11-18 00:00:00',
 ];
 
-const segmentEndDates = [
+export const segmentEndDates = [
   '2021-09-01 11:59:59',
   '2021-09-17 11:59:59',
   '2021-10-07 11:59:59',

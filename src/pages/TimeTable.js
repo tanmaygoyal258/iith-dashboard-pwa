@@ -16,6 +16,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { segmentEndDates } from '../makeEventList';
 
 import './TimeTable.css';
 
@@ -96,7 +97,6 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
   const handleEndChange = (event) => {
     endTime = event.target.value;
   };
-
   const genNewEvent = () => {
     if (!eventDate || !endTime || !startTime) {
       alert('Start and End Times must be specified to create a new event');
@@ -108,26 +108,65 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
     const endDate = new Date(`${eventDate} ${endTime}:00`);
     const weekly = document.getElementById('weekly_recur');
     const daily = document.getElementById('daily_recur');
-
+    const limitDate = new Date(`${segmentEndDates[5]}`);
     if (startDate < endDate) {
-      handleNewCustomEvent(title, startDate, endDate);
-
+      const newCustomEvents = [];
       if (weekly.checked) {
-        for (let i = 0; i < 4; i += 1) {
-          handleNewCustomEvent(title, startDate.getDate() + 7, endDate);
+        for (let i = 0; i < limitDate.getDate(); i += 1) {
+          newCustomEvents.push({
+            start: new Date(startDate),
+            end: new Date(endDate),
+            title,
+          });
+          startDate.setDate(startDate.getDate() + 7);
+          endDate.setDate(endDate.getDate() + 7);
         }
-      }
-      if (daily.checked) {
-        for (let i = 1; i < 7; i += 1) {
-          handleNewCustomEvent(title, startDate.getDate() + i, endDate);
+      } else if (daily.checked) {
+        for (let i = 0; i < limitDate.getDate(); i += 1) {
+          newCustomEvents.push({
+            start: new Date(startDate),
+            end: new Date(endDate),
+            title,
+          });
+          startDate.setDate(startDate.getDate() + 1);
+          endDate.setDate(endDate.getDate() + 1);
         }
+      } else {
+        newCustomEvents.push({
+          start: new Date(startDate),
+          end: new Date(endDate),
+          title,
+        });
       }
+      handleNewCustomEvent(newCustomEvents);
+      handleClose();
     } else {
-      handleNewCustomEvent(title, endDate, startDate);
+      const newCustomEvents = [];
+      if (weekly.checked) {
+        for (let i = 0; i < limitDate.getDate(); i += 1) {
+          newCustomEvents.push({
+            start: new Date(endDate),
+            end: new Date(startDate),
+            title,
+          });
+          startDate.setDate(startDate.getDate() + 7);
+          endDate.setDate(endDate.getDate() + 7);
+        }
+      } else if (daily.checked) {
+        for (let i = 0; i < limitDate.getDate(); i += 1) {
+          newCustomEvents.push({
+            start: new Date(endDate),
+            end: new Date(startDate),
+            title,
+          });
+          startDate.setDate(startDate.getDate() + 1);
+          endDate.setDate(endDate.getDate() + 1);
+        }
+      } else {
+        newCustomEvents.push({ start: endDate, end: startDate, title });
+      }
     }
-    handleClose();
   };
-
   return (
     <div id="calendar-div">
       <FullCalendar
@@ -266,12 +305,14 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
 }
 
 TimeTable.propTypes = {
+  // eslint-disable-next-line
   eventList: PropTypes.arrayOf(PropTypes.object),
   handleNewCustomEvent: PropTypes.func,
 };
 
 TimeTable.defaultProps = {
   eventList: [],
+  // eslint-disable-next-line
   handleNewCustomEvent: () => {
     alert('Error, please try again later');
   },
